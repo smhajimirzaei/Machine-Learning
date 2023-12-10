@@ -10,5 +10,23 @@
   },
   "posts/welcome/index.qmd": {
     "index.html": "2e268f22"
+  },
+  "posts/Clustering/index.qmd": {
+    "index.html": "38b3eee8"
+  },
+  "posts/CV for Lubricity/index.qmd": {
+    "index.html": "3dc92304"
+  },
+  "posts/CV for tie/ballast/index.qmd": {
+    "index.html": "64032843"
+  },
+  "posts/Reinforcement Learning/index.qmd": {
+    "index.html": "edcf944b"
+  },
+  "posts/CV for Tie-Ballast/index.qmd": {
+    "index.html": "565d0ee6"
+  },
+  "posts/Tie-Ballast Detection/index.qmd": {
+    "index.html": "9f34668f"
   }
 }

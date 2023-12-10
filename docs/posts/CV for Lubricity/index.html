@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.433">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Morteza Mirzaei">
+<meta name="dcterms.date" content="2023-12-09">
+
+<title>MortezaML - CV for Lubricity</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">MortezaML</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about.html" rel="" target="">
+ <span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/smhajimirzaei" rel="" target=""><i class="bi bi-github" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://www.linkedin.com/in/s-morteza-h-mirzaei/" rel="" target=""><i class="bi bi-linkedin" role="img">
+</i> 
+ <span class="menu-text"></span></a>
+  </li>  
+</ul>
+            <div class="quarto-navbar-tools">
+</div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">CV for Lubricity</h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">code</div>
+                <div class="quarto-category">analysis</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Morteza Mirzaei </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">December 9, 2023</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<section id="lubricity-detection-using-computer-vision" class="level2">
+<h2 class="anchored" data-anchor-id="lubricity-detection-using-computer-vision">Lubricity detection using Computer Vision</h2>
+<p>In this project, a camera was mounted on a rail cart targeted the gage face of the rail. The recorded videos then were processed to autonomously identify lubricated sections</p>
+<pre><code>from google.colab import drive
+drive.mount('/content/drive')</code></pre>
+<pre><code>def interactive_plot_scatter(df, x_axis, y_axis, xlabel, ylabel):
+  import plotly.express as px
+
+  fig = px.scatter(df, x_axis, y_axis).update_layout(xaxis_title=xlabel, yaxis_title=ylabel)
+
+  return fig.show()
+
+def interactive_plot_line(df, x_axis, y_axis, xlabel, ylabel):
+  import plotly.express as px
+
+  fig = px.line(df, x_axis, y_axis).update_layout(xaxis_title=xlabel, yaxis_title=ylabel)
+
+  return fig.show()</code></pre>
+<pre><code>!pip install moviepy
+!pip3 install imageio==2.4.1
+!pip install --upgrade imageio-ffmpeg</code></pre>
+<pre><code>import moviepy.editor as mp
+import cv2
+import os
+import numpy as np
+import pandas as pd
+from google.colab.patches import cv2_imshow
+from numpy import genfromtxt
+from PIL import Image
+import os
+from moviepy.editor import *</code></pre>
+<pre><code>Test = 'Test_1'
+Camera = 'A'
+Encoder = 'MP4'</code></pre>
+<pre><code>video_path = '/content/drive/MyDrive/RTL_Lubricity/Machine_Vision/Hucklebery/6_8_2023/' + Test + '/' + Test + '_' + Camera + '.' + Encoder
+save_path = '/content/drive/MyDrive/RTL_Lubricity/Machine_Vision/Hucklebery/6_8_2023/' + Test +'/Reduced_size/' + Test + '_' + Camera + '.' + Encoder</code></pre>
+</section>
+<section id="find-bounds" class="level1">
+<h1>Find bounds</h1>
+<p>By trial and error, coordinates of the target were identified. Now we can crop the images to get rid of redundant parts of the image. This would dramatically reduce the computation cost.</p>
+<pre><code>def Find_bounds(video_path, time, X_low, X_high, Y_low, Y_high):
+  cap = cv2.VideoCapture(video_path)
+  clip_duration = cap.get(cv2.CAP_PROP_FRAME_COUNT) / cap.get(cv2.CAP_PROP_FPS)
+
+  cap.set(cv2.CAP_PROP_POS_MSEC,time*1000)
+  hasFrames,image1 = cap.read()
+
+  image0 = image1[X_low:X_high, Y_low:Y_high]
+
+  # cv2_imshow(image1)
+  # cv2_imshow(image0)
+  return image1, image0</code></pre>
+<pre><code>time = 40
+
+cap = cv2.VideoCapture(video_path)
+cap.set(cv2.CAP_PROP_POS_MSEC,time*1000)
+hasFrames,image1 = cap.read()
+
+X_low = int(image1.shape[0]/2-125)
+X_high = int(image1.shape[0]/2+25)
+Y_low = int(image1.shape[1]/2-75)
+Y_high = int(image1.shape[1]/2+75)
+
+image1, image0 = Find_bounds(video_path, time, X_low, X_high, Y_low, Y_high)
+
+cv2_imshow(image0)
+cv2_imshow(image1)</code></pre>
+<p><img src="images/14.png" class="img-fluid"></p>
+<p><img src="images/15.png" class="img-fluid"></p>
+</section>
+<section id="reduce-size" class="level1">
+<h1>Reduce Size</h1>
+<p>In this section, we reduce the image sizes to lower the computation cost.</p>
+<pre><code>def reduce_size(video_path, save_path, Start_Time, End_Time):
+  cap = cv2.VideoCapture(video_path)
+  clip_duration = cap.get(cv2.CAP_PROP_FRAME_COUNT) / cap.get(cv2.CAP_PROP_FPS)
+  clip = VideoFileClip(video_path).subclip(Start_Time, End_Time)
+
+  my_width = image1.shape[1]//2
+  my_height = image1.shape[0]//2
+
+  clip_resized = clip.resize(newsize=(my_width, my_height))
+  clip_resized.write_videofile(save_path)</code></pre>
+<pre><code>reduce_size(video_path, save_path, Start_Time = 4*60 + 47, End_Time = 10*60 + 17)</code></pre>
+</section>
+<section id="framing" class="level1">
+<h1>Framing</h1>
+<p>In this section the videos were divided intp frames and saved as images.</p>
+<pre><code>video_path = save_path
+
+cap = cv2.VideoCapture(video_path)
+
+clip_duration = cap.get(cv2.CAP_PROP_FRAME_COUNT) / cap.get(cv2.CAP_PROP_FPS)
+clip_duration</code></pre>
+<p>330.005005</p>
+<pre><code>time = 0.00
+img = []
+t = []
+fps = 1 / 10
+
+while (time)&lt;clip_duration:
+  cap.set(cv2.CAP_PROP_POS_MSEC,time*1000)
+  hasFrames,image0 = cap.read()
+  if hasFrames:
+    image = image0[int(X_low/2):int(X_high/2), int(Y_low/2):int(Y_high/2)]
+    img.append(image)
+    t.append(time)
+    print(time)
+  time = round(time + fps, 2)</code></pre>
+<pre><code>from google.colab.patches import cv2_imshow
+
+cv2_imshow(img[1000])</code></pre>
+<p><img src="images/16.png" class="img-fluid"></p>
+</section>
+<section id="save-the-frames" class="level1">
+<h1>Save the frames</h1>
+<pre><code>c = 0
+index = []
+time0 = time
+
+for i in t:
+  path = '/content/drive/MyDrive/RTL_Lubricity/Machine_Vision/Hucklebery/6_8_2023/Test_1/Cropped_frames_Camera_C/Index_' + str(c) + '.jpg'
+  cv2.imwrite(path, img[c])
+  index.append('Index_' + str(c))
+  print(i)
+  c = c + 1
+
+
+d = {'Image_index': index, 'time': t}
+df = pd.DataFrame(data=d)
+
+df.to_csv('/content/drive/MyDrive/RTL_Lubricity/Machine_Vision/Hucklebery/6_8_2023/Test_1/index-time_Test1C.csv')</code></pre>
+</section>
+<section id="load-the-data" class="level1">
+<h1>Load the data</h1>
+<pre><code>df_new = pd.read_csv('/content/drive/MyDrive/RTL_Lubricity/Machine_Vision/Hucklebery/6_8_2023/Test_1/index-time_Test1A.csv')
+
+dirpath = '/content/drive/MyDrive/RTL_Lubricity/Machine_Vision/Hucklebery/6_8_2023/Test_1/Cropped_frames_Test_1_A/'
+
+shots = []
+idx = []
+
+for i in range(0, df_new['time'].shape[0]):
+  if os.path.exists(dirpath + 'Index_' + str(i) + '.jpg'):
+    shots.append(cv2.imread(dirpath + 'Index_' + str(i) + '.jpg'))
+    idx.append('Index_' + str(i))
+  else:
+    break
+
+
+df_new['image_index'] = idx
+df_new['processed_images'] = shots</code></pre>
+</section>
+<section id="training" class="level1">
+<h1>Training</h1>
+<section id="auto-labeling" class="level2">
+<h2 class="anchored" data-anchor-id="auto-labeling">Auto Labeling</h2>
+<p>Two sections of the video were lubricated. We manually labeled part of them for training.</p>
+<pre><code>L = [886, 1379, 1792, 2809]     # L = ['Start of Lubrication' : index number, 'End of Lubrication' : index number, /////]
+endpoint = len(df_new)
+step = 10
+
+labels = np.ones(endpoint) * (-1)
+
+for i in range(0, endpoint, step):
+  labels[i] = 0
+  for j in range(int(len(L) / 2)):
+    if (df_new.iloc[i]['Unnamed: 0']&gt;L[j*2]) and (df_new.iloc[i]['Unnamed: 0']&lt;L[j*2+1]):
+      labels[i] = 1
+
+df_new['labels'] = labels
+df_train = df_new[df_new['labels'] != -1]</code></pre>
+<pre><code>features = []
+
+for i in range(0, len(df_train['processed_images'])):
+  features.append(np.array(df_train.iloc[i]['processed_images']))
+
+features = np.array(features)
+
+labels = df_train['labels']
+
+from sklearn.utils import shuffle
+from sklearn.model_selection import train_test_split
+
+features = features.astype('float32') / 255.0</code></pre>
+<pre><code>train_x, test_x, train_y, test_y = train_test_split(features, labels, test_size=0.2, stratify=labels)
+
+train_x, train_y = shuffle(train_x, train_y, random_state=0)
+test_x, test_y = shuffle(test_x, test_y, random_state=0)</code></pre>
+<pre><code>print(train_x.shape)
+print(train_y.shape)
+print(test_x.shape)
+print(test_y.shape)</code></pre>
+<p>(269, 100, 100, 3) (269,) (68, 100, 100, 3) (68,)</p>
+<pre><code>from keras.applications.inception_v3 import InceptionV3
+from keras.preprocessing import image
+from keras.models import Model, Sequential
+from keras.layers import Dense, GlobalAveragePooling2D, Dropout, Flatten, Dense</code></pre>
+<pre><code>base_model = InceptionV3(weights='imagenet', include_top=False,input_shape=df_train.iloc[0]['processed_images'].shape)
+for layer in base_model.layers:
+    layer.trainable = False
+
+x = base_model.output
+x = GlobalAveragePooling2D()(x)
+x = Dense(1024, activation='relu')(x)
+predictions = Dense(1, activation='sigmoid')(x)
+
+Imported_model = Model(inputs=base_model.input, outputs=predictions)</code></pre>
+<pre><code>Imported_model.summary()</code></pre>
+<p>Model: “model_1” __________________________________________________________________________________________________ Layer (type) Output Shape Param # Connected to ================================================================================================== input_2 (InputLayer) [(None, 100, 100, 3 0 [] )]</p>
+<p>conv2d_94 (Conv2D) (None, 49, 49, 32) 864 [‘input_2[0][0]’]</p>
+<p>batch_normalization_94 (BatchN (None, 49, 49, 32) 96 [‘conv2d_94[0][0]’] ormalization)</p>
+<p>activation_94 (Activation) (None, 49, 49, 32) 0 [‘batch_normalization_94[0][0]’]</p>
+<p>conv2d_95 (Conv2D) (None, 47, 47, 32) 9216 [‘activation_94[0][0]’]</p>
+<p>batch_normalization_95 (BatchN (None, 47, 47, 32) 96 [‘conv2d_95[0][0]’] ormalization)</p>
+<p>activation_95 (Activation) (None, 47, 47, 32) 0 [‘batch_normalization_95[0][0]’]</p>
+<p>conv2d_96 (Conv2D) (None, 47, 47, 64) 18432 [‘activation_95[0][0]’]</p>
+<p>batch_normalization_96 (BatchN (None, 47, 47, 64) 192 [‘conv2d_96[0][0]’] ormalization)</p>
+<p>activation_96 (Activation) (None, 47, 47, 64) 0 [‘batch_normalization_96[0][0]’]</p>
+<p>max_pooling2d_4 (MaxPooling2D) (None, 23, 23, 64) 0 [‘activation_96[0][0]’]</p>
+<p>conv2d_97 (Conv2D) (None, 23, 23, 80) 5120 [‘max_pooling2d_4[0][0]’]</p>
+<p>batch_normalization_97 (BatchN (None, 23, 23, 80) 240 [‘conv2d_97[0][0]’] ormalization)</p>
+<p>activation_97 (Activation) (None, 23, 23, 80) 0 [‘batch_normalization_97[0][0]’]</p>
+<p>conv2d_98 (Conv2D) (None, 21, 21, 192) 138240 [‘activation_97[0][0]’]</p>
+<p>batch_normalization_98 (BatchN (None, 21, 21, 192) 576 [‘conv2d_98[0][0]’] ormalization)</p>
+<p>activation_98 (Activation) (None, 21, 21, 192) 0 [‘batch_normalization_98[0][0]’]</p>
+<p>max_pooling2d_5 (MaxPooling2D) (None, 10, 10, 192) 0 [‘activation_98[0][0]’]</p>
+<p>conv2d_102 (Conv2D) (None, 10, 10, 64) 12288 [‘max_pooling2d_5[0][0]’]</p>
+<p>batch_normalization_102 (Batch (None, 10, 10, 64) 192 [‘conv2d_102[0][0]’] Normalization)</p>
+<p>activation_102 (Activation) (None, 10, 10, 64) 0 [‘batch_normalization_102[0][0]’]</p>
+<p>conv2d_100 (Conv2D) (None, 10, 10, 48) 9216 [‘max_pooling2d_5[0][0]’]</p>
+<p>conv2d_103 (Conv2D) (None, 10, 10, 96) 55296 [‘activation_102[0][0]’]</p>
+<p>batch_normalization_100 (Batch (None, 10, 10, 48) 144 [‘conv2d_100[0][0]’] Normalization)</p>
+<p>batch_normalization_103 (Batch (None, 10, 10, 96) 288 [‘conv2d_103[0][0]’] Normalization)</p>
+<p>activation_100 (Activation) (None, 10, 10, 48) 0 [‘batch_normalization_100[0][0]’]</p>
+<p>activation_103 (Activation) (None, 10, 10, 96) 0 [‘batch_normalization_103[0][0]’]</p>
+<p>average_pooling2d_9 (AveragePo (None, 10, 10, 192) 0 [‘max_pooling2d_5[0][0]’] oling2D)</p>
+<p>conv2d_99 (Conv2D) (None, 10, 10, 64) 12288 [‘max_pooling2d_5[0][0]’]</p>
+<p>conv2d_101 (Conv2D) (None, 10, 10, 64) 76800 [‘activation_100[0][0]’]</p>
+<p>conv2d_104 (Conv2D) (None, 10, 10, 96) 82944 [‘activation_103[0][0]’]</p>
+<p>conv2d_105 (Conv2D) (None, 10, 10, 32) 6144 [‘average_pooling2d_9[0][0]’]</p>
+<p>batch_normalization_99 (BatchN (None, 10, 10, 64) 192 [‘conv2d_99[0][0]’] ormalization)</p>
+<p>batch_normalization_101 (Batch (None, 10, 10, 64) 192 [‘conv2d_101[0][0]’] Normalization)</p>
+<p>batch_normalization_104 (Batch (None, 10, 10, 96) 288 [‘conv2d_104[0][0]’] Normalization)</p>
+<p>batch_normalization_105 (Batch (None, 10, 10, 32) 96 [‘conv2d_105[0][0]’] Normalization)</p>
+<p>activation_99 (Activation) (None, 10, 10, 64) 0 [‘batch_normalization_99[0][0]’]</p>
+<p>activation_101 (Activation) (None, 10, 10, 64) 0 [‘batch_normalization_101[0][0]’]</p>
+<p>activation_104 (Activation) (None, 10, 10, 96) 0 [‘batch_normalization_104[0][0]’]</p>
+<p>activation_105 (Activation) (None, 10, 10, 32) 0 [‘batch_normalization_105[0][0]’]</p>
+<p>mixed0 (Concatenate) (None, 10, 10, 256) 0 [‘activation_99[0][0]’, ‘activation_101[0][0]’, ‘activation_104[0][0]’, ‘activation_105[0][0]’]</p>
+<p>conv2d_109 (Conv2D) (None, 10, 10, 64) 16384 [‘mixed0[0][0]’]</p>
+<p>batch_normalization_109 (Batch (None, 10, 10, 64) 192 [‘conv2d_109[0][0]’] Normalization)</p>
+<p>activation_109 (Activation) (None, 10, 10, 64) 0 [‘batch_normalization_109[0][0]’]</p>
+<p>conv2d_107 (Conv2D) (None, 10, 10, 48) 12288 [‘mixed0[0][0]’]</p>
+<p>conv2d_110 (Conv2D) (None, 10, 10, 96) 55296 [‘activation_109[0][0]’]</p>
+<p>batch_normalization_107 (Batch (None, 10, 10, 48) 144 [‘conv2d_107[0][0]’] Normalization)</p>
+<p>batch_normalization_110 (Batch (None, 10, 10, 96) 288 [‘conv2d_110[0][0]’] Normalization)</p>
+<p>activation_107 (Activation) (None, 10, 10, 48) 0 [‘batch_normalization_107[0][0]’]</p>
+<p>activation_110 (Activation) (None, 10, 10, 96) 0 [‘batch_normalization_110[0][0]’]</p>
+<p>average_pooling2d_10 (AverageP (None, 10, 10, 256) 0 [‘mixed0[0][0]’] ooling2D)</p>
+<p>conv2d_106 (Conv2D) (None, 10, 10, 64) 16384 [‘mixed0[0][0]’]</p>
+<p>conv2d_108 (Conv2D) (None, 10, 10, 64) 76800 [‘activation_107[0][0]’]</p>
+<p>conv2d_111 (Conv2D) (None, 10, 10, 96) 82944 [‘activation_110[0][0]’]</p>
+<p>conv2d_112 (Conv2D) (None, 10, 10, 64) 16384 [‘average_pooling2d_10[0][0]’]</p>
+<p>batch_normalization_106 (Batch (None, 10, 10, 64) 192 [‘conv2d_106[0][0]’] Normalization)</p>
+<p>batch_normalization_108 (Batch (None, 10, 10, 64) 192 [‘conv2d_108[0][0]’] Normalization)</p>
+<p>batch_normalization_111 (Batch (None, 10, 10, 96) 288 [‘conv2d_111[0][0]’] Normalization)</p>
+<p>batch_normalization_112 (Batch (None, 10, 10, 64) 192 [‘conv2d_112[0][0]’] Normalization)</p>
+<p>activation_106 (Activation) (None, 10, 10, 64) 0 [‘batch_normalization_106[0][0]’]</p>
+<p>activation_108 (Activation) (None, 10, 10, 64) 0 [‘batch_normalization_108[0][0]’]</p>
+<p>activation_111 (Activation) (None, 10, 10, 96) 0 [‘batch_normalization_111[0][0]’]</p>
+<p>activation_112 (Activation) (None, 10, 10, 64) 0 [‘batch_normalization_112[0][0]’]</p>
+<p>mixed1 (Concatenate) (None, 10, 10, 288) 0 [‘activation_106[0][0]’, ‘activation_108[0][0]’, ‘activation_111[0][0]’, ‘activation_112[0][0]’]</p>
+<p>conv2d_116 (Conv2D) (None, 10, 10, 64) 18432 [‘mixed1[0][0]’]</p>
+<p>batch_normalization_116 (Batch (None, 10, 10, 64) 192 [‘conv2d_116[0][0]’] Normalization)</p>
+<p>activation_116 (Activation) (None, 10, 10, 64) 0 [‘batch_normalization_116[0][0]’]</p>
+<p>conv2d_114 (Conv2D) (None, 10, 10, 48) 13824 [‘mixed1[0][0]’]</p>
+<p>conv2d_117 (Conv2D) (None, 10, 10, 96) 55296 [‘activation_116[0][0]’]</p>
+<p>batch_normalization_114 (Batch (None, 10, 10, 48) 144 [‘conv2d_114[0][0]’] Normalization)</p>
+<p>batch_normalization_117 (Batch (None, 10, 10, 96) 288 [‘conv2d_117[0][0]’] Normalization)</p>
+<p>activation_114 (Activation) (None, 10, 10, 48) 0 [‘batch_normalization_114[0][0]’]</p>
+<p>activation_117 (Activation) (None, 10, 10, 96) 0 [‘batch_normalization_117[0][0]’]</p>
+<p>average_pooling2d_11 (AverageP (None, 10, 10, 288) 0 [‘mixed1[0][0]’] ooling2D)</p>
+<p>conv2d_113 (Conv2D) (None, 10, 10, 64) 18432 [‘mixed1[0][0]’]</p>
+<p>conv2d_115 (Conv2D) (None, 10, 10, 64) 76800 [‘activation_114[0][0]’]</p>
+<p>conv2d_118 (Conv2D) (None, 10, 10, 96) 82944 [‘activation_117[0][0]’]</p>
+<p>conv2d_119 (Conv2D) (None, 10, 10, 64) 18432 [‘average_pooling2d_11[0][0]’]</p>
+<p>batch_normalization_113 (Batch (None, 10, 10, 64) 192 [‘conv2d_113[0][0]’] Normalization)</p>
+<p>batch_normalization_115 (Batch (None, 10, 10, 64) 192 [‘conv2d_115[0][0]’] Normalization)</p>
+<p>batch_normalization_118 (Batch (None, 10, 10, 96) 288 [‘conv2d_118[0][0]’] Normalization)</p>
+<p>batch_normalization_119 (Batch (None, 10, 10, 64) 192 [‘conv2d_119[0][0]’] Normalization)</p>
+<p>activation_113 (Activation) (None, 10, 10, 64) 0 [‘batch_normalization_113[0][0]’]</p>
+<p>activation_115 (Activation) (None, 10, 10, 64) 0 [‘batch_normalization_115[0][0]’]</p>
+<p>activation_118 (Activation) (None, 10, 10, 96) 0 [‘batch_normalization_118[0][0]’]</p>
+<p>activation_119 (Activation) (None, 10, 10, 64) 0 [‘batch_normalization_119[0][0]’]</p>
+<p>mixed2 (Concatenate) (None, 10, 10, 288) 0 [‘activation_113[0][0]’, ‘activation_115[0][0]’, ‘activation_118[0][0]’, ‘activation_119[0][0]’]</p>
+<p>conv2d_121 (Conv2D) (None, 10, 10, 64) 18432 [‘mixed2[0][0]’]</p>
+<p>batch_normalization_121 (Batch (None, 10, 10, 64) 192 [‘conv2d_121[0][0]’] Normalization)</p>
+<p>activation_121 (Activation) (None, 10, 10, 64) 0 [‘batch_normalization_121[0][0]’]</p>
+<p>conv2d_122 (Conv2D) (None, 10, 10, 96) 55296 [‘activation_121[0][0]’]</p>
+<p>batch_normalization_122 (Batch (None, 10, 10, 96) 288 [‘conv2d_122[0][0]’] Normalization)</p>
+<p>activation_122 (Activation) (None, 10, 10, 96) 0 [‘batch_normalization_122[0][0]’]</p>
+<p>conv2d_120 (Conv2D) (None, 4, 4, 384) 995328 [‘mixed2[0][0]’]</p>
+<p>conv2d_123 (Conv2D) (None, 4, 4, 96) 82944 [‘activation_122[0][0]’]</p>
+<p>batch_normalization_120 (Batch (None, 4, 4, 384) 1152 [‘conv2d_120[0][0]’] Normalization)</p>
+<p>batch_normalization_123 (Batch (None, 4, 4, 96) 288 [‘conv2d_123[0][0]’] Normalization)</p>
+<p>activation_120 (Activation) (None, 4, 4, 384) 0 [‘batch_normalization_120[0][0]’]</p>
+<p>activation_123 (Activation) (None, 4, 4, 96) 0 [‘batch_normalization_123[0][0]’]</p>
+<p>max_pooling2d_6 (MaxPooling2D) (None, 4, 4, 288) 0 [‘mixed2[0][0]’]</p>
+<p>mixed3 (Concatenate) (None, 4, 4, 768) 0 [‘activation_120[0][0]’, ‘activation_123[0][0]’, ‘max_pooling2d_6[0][0]’]</p>
+<p>conv2d_128 (Conv2D) (None, 4, 4, 128) 98304 [‘mixed3[0][0]’]</p>
+<p>batch_normalization_128 (Batch (None, 4, 4, 128) 384 [‘conv2d_128[0][0]’] Normalization)</p>
+<p>activation_128 (Activation) (None, 4, 4, 128) 0 [‘batch_normalization_128[0][0]’]</p>
+<p>conv2d_129 (Conv2D) (None, 4, 4, 128) 114688 [‘activation_128[0][0]’]</p>
+<p>batch_normalization_129 (Batch (None, 4, 4, 128) 384 [‘conv2d_129[0][0]’] Normalization)</p>
+<p>activation_129 (Activation) (None, 4, 4, 128) 0 [‘batch_normalization_129[0][0]’]</p>
+<p>conv2d_125 (Conv2D) (None, 4, 4, 128) 98304 [‘mixed3[0][0]’]</p>
+<p>conv2d_130 (Conv2D) (None, 4, 4, 128) 114688 [‘activation_129[0][0]’]</p>
+<p>batch_normalization_125 (Batch (None, 4, 4, 128) 384 [‘conv2d_125[0][0]’] Normalization)</p>
+<p>batch_normalization_130 (Batch (None, 4, 4, 128) 384 [‘conv2d_130[0][0]’] Normalization)</p>
+<p>activation_125 (Activation) (None, 4, 4, 128) 0 [‘batch_normalization_125[0][0]’]</p>
+<p>activation_130 (Activation) (None, 4, 4, 128) 0 [‘batch_normalization_130[0][0]’]</p>
+<p>conv2d_126 (Conv2D) (None, 4, 4, 128) 114688 [‘activation_125[0][0]’]</p>
+<p>conv2d_131 (Conv2D) (None, 4, 4, 128) 114688 [‘activation_130[0][0]’]</p>
+<p>batch_normalization_126 (Batch (None, 4, 4, 128) 384 [‘conv2d_126[0][0]’] Normalization)</p>
+<p>batch_normalization_131 (Batch (None, 4, 4, 128) 384 [‘conv2d_131[0][0]’] Normalization)</p>
+<p>activation_126 (Activation) (None, 4, 4, 128) 0 [‘batch_normalization_126[0][0]’]</p>
+<p>activation_131 (Activation) (None, 4, 4, 128) 0 [‘batch_normalization_131[0][0]’]</p>
+<p>average_pooling2d_12 (AverageP (None, 4, 4, 768) 0 [‘mixed3[0][0]’] ooling2D)</p>
+<p>conv2d_124 (Conv2D) (None, 4, 4, 192) 147456 [‘mixed3[0][0]’]</p>
+<p>conv2d_127 (Conv2D) (None, 4, 4, 192) 172032 [‘activation_126[0][0]’]</p>
+<p>conv2d_132 (Conv2D) (None, 4, 4, 192) 172032 [‘activation_131[0][0]’]</p>
+<p>conv2d_133 (Conv2D) (None, 4, 4, 192) 147456 [‘average_pooling2d_12[0][0]’]</p>
+<p>batch_normalization_124 (Batch (None, 4, 4, 192) 576 [‘conv2d_124[0][0]’] Normalization)</p>
+<p>batch_normalization_127 (Batch (None, 4, 4, 192) 576 [‘conv2d_127[0][0]’] Normalization)</p>
+<p>batch_normalization_132 (Batch (None, 4, 4, 192) 576 [‘conv2d_132[0][0]’] Normalization)</p>
+<p>batch_normalization_133 (Batch (None, 4, 4, 192) 576 [‘conv2d_133[0][0]’] Normalization)</p>
+<p>activation_124 (Activation) (None, 4, 4, 192) 0 [‘batch_normalization_124[0][0]’]</p>
+<p>activation_127 (Activation) (None, 4, 4, 192) 0 [‘batch_normalization_127[0][0]’]</p>
+<p>activation_132 (Activation) (None, 4, 4, 192) 0 [‘batch_normalization_132[0][0]’]</p>
+<p>activation_133 (Activation) (None, 4, 4, 192) 0 [‘batch_normalization_133[0][0]’]</p>
+<p>mixed4 (Concatenate) (None, 4, 4, 768) 0 [‘activation_124[0][0]’, ‘activation_127[0][0]’, ‘activation_132[0][0]’, ‘activation_133[0][0]’]</p>
+<p>conv2d_138 (Conv2D) (None, 4, 4, 160) 122880 [‘mixed4[0][0]’]</p>
+<p>batch_normalization_138 (Batch (None, 4, 4, 160) 480 [‘conv2d_138[0][0]’] Normalization)</p>
+<p>activation_138 (Activation) (None, 4, 4, 160) 0 [‘batch_normalization_138[0][0]’]</p>
+<p>conv2d_139 (Conv2D) (None, 4, 4, 160) 179200 [‘activation_138[0][0]’]</p>
+<p>batch_normalization_139 (Batch (None, 4, 4, 160) 480 [‘conv2d_139[0][0]’] Normalization)</p>
+<p>activation_139 (Activation) (None, 4, 4, 160) 0 [‘batch_normalization_139[0][0]’]</p>
+<p>conv2d_135 (Conv2D) (None, 4, 4, 160) 122880 [‘mixed4[0][0]’]</p>
+<p>conv2d_140 (Conv2D) (None, 4, 4, 160) 179200 [‘activation_139[0][0]’]</p>
+<p>batch_normalization_135 (Batch (None, 4, 4, 160) 480 [‘conv2d_135[0][0]’] Normalization)</p>
+<p>batch_normalization_140 (Batch (None, 4, 4, 160) 480 [‘conv2d_140[0][0]’] Normalization)</p>
+<p>activation_135 (Activation) (None, 4, 4, 160) 0 [‘batch_normalization_135[0][0]’]</p>
+<p>activation_140 (Activation) (None, 4, 4, 160) 0 [‘batch_normalization_140[0][0]’]</p>
+<p>conv2d_136 (Conv2D) (None, 4, 4, 160) 179200 [‘activation_135[0][0]’]</p>
+<p>conv2d_141 (Conv2D) (None, 4, 4, 160) 179200 [‘activation_140[0][0]’]</p>
+<p>batch_normalization_136 (Batch (None, 4, 4, 160) 480 [‘conv2d_136[0][0]’] Normalization)</p>
+<p>batch_normalization_141 (Batch (None, 4, 4, 160) 480 [‘conv2d_141[0][0]’] Normalization)</p>
+<p>activation_136 (Activation) (None, 4, 4, 160) 0 [‘batch_normalization_136[0][0]’]</p>
+<p>activation_141 (Activation) (None, 4, 4, 160) 0 [‘batch_normalization_141[0][0]’]</p>
+<p>average_pooling2d_13 (AverageP (None, 4, 4, 768) 0 [‘mixed4[0][0]’] ooling2D)</p>
+<p>conv2d_134 (Conv2D) (None, 4, 4, 192) 147456 [‘mixed4[0][0]’]</p>
+<p>conv2d_137 (Conv2D) (None, 4, 4, 192) 215040 [‘activation_136[0][0]’]</p>
+<p>conv2d_142 (Conv2D) (None, 4, 4, 192) 215040 [‘activation_141[0][0]’]</p>
+<p>conv2d_143 (Conv2D) (None, 4, 4, 192) 147456 [‘average_pooling2d_13[0][0]’]</p>
+<p>batch_normalization_134 (Batch (None, 4, 4, 192) 576 [‘conv2d_134[0][0]’] Normalization)</p>
+<p>batch_normalization_137 (Batch (None, 4, 4, 192) 576 [‘conv2d_137[0][0]’] Normalization)</p>
+<p>batch_normalization_142 (Batch (None, 4, 4, 192) 576 [‘conv2d_142[0][0]’] Normalization)</p>
+<p>batch_normalization_143 (Batch (None, 4, 4, 192) 576 [‘conv2d_143[0][0]’] Normalization)</p>
+<p>activation_134 (Activation) (None, 4, 4, 192) 0 [‘batch_normalization_134[0][0]’]</p>
+<p>activation_137 (Activation) (None, 4, 4, 192) 0 [‘batch_normalization_137[0][0]’]</p>
+<p>activation_142 (Activation) (None, 4, 4, 192) 0 [‘batch_normalization_142[0][0]’]</p>
+<p>activation_143 (Activation) (None, 4, 4, 192) 0 [‘batch_normalization_143[0][0]’]</p>
+<p>mixed5 (Concatenate) (None, 4, 4, 768) 0 [‘activation_134[0][0]’, ‘activation_137[0][0]’, ‘activation_142[0][0]’, ‘activation_143[0][0]’]</p>
+<p>conv2d_148 (Conv2D) (None, 4, 4, 160) 122880 [‘mixed5[0][0]’]</p>
+<p>batch_normalization_148 (Batch (None, 4, 4, 160) 480 [‘conv2d_148[0][0]’] Normalization)</p>
+<p>activation_148 (Activation) (None, 4, 4, 160) 0 [‘batch_normalization_148[0][0]’]</p>
+<p>conv2d_149 (Conv2D) (None, 4, 4, 160) 179200 [‘activation_148[0][0]’]</p>
+<p>batch_normalization_149 (Batch (None, 4, 4, 160) 480 [‘conv2d_149[0][0]’] Normalization)</p>
+<p>activation_149 (Activation) (None, 4, 4, 160) 0 [‘batch_normalization_149[0][0]’]</p>
+<p>conv2d_145 (Conv2D) (None, 4, 4, 160) 122880 [‘mixed5[0][0]’]</p>
+<p>conv2d_150 (Conv2D) (None, 4, 4, 160) 179200 [‘activation_149[0][0]’]</p>
+<p>batch_normalization_145 (Batch (None, 4, 4, 160) 480 [‘conv2d_145[0][0]’] Normalization)</p>
+<p>batch_normalization_150 (Batch (None, 4, 4, 160) 480 [‘conv2d_150[0][0]’] Normalization)</p>
+<p>activation_145 (Activation) (None, 4, 4, 160) 0 [‘batch_normalization_145[0][0]’]</p>
+<p>activation_150 (Activation) (None, 4, 4, 160) 0 [‘batch_normalization_150[0][0]’]</p>
+<p>conv2d_146 (Conv2D) (None, 4, 4, 160) 179200 [‘activation_145[0][0]’]</p>
+<p>conv2d_151 (Conv2D) (None, 4, 4, 160) 179200 [‘activation_150[0][0]’]</p>
+<p>batch_normalization_146 (Batch (None, 4, 4, 160) 480 [‘conv2d_146[0][0]’] Normalization)</p>
+<p>batch_normalization_151 (Batch (None, 4, 4, 160) 480 [‘conv2d_151[0][0]’] Normalization)</p>
+<p>activation_146 (Activation) (None, 4, 4, 160) 0 [‘batch_normalization_146[0][0]’]</p>
+<p>activation_151 (Activation) (None, 4, 4, 160) 0 [‘batch_normalization_151[0][0]’]</p>
+<p>average_pooling2d_14 (AverageP (None, 4, 4, 768) 0 [‘mixed5[0][0]’] ooling2D)</p>
+<p>conv2d_144 (Conv2D) (None, 4, 4, 192) 147456 [‘mixed5[0][0]’]</p>
+<p>conv2d_147 (Conv2D) (None, 4, 4, 192) 215040 [‘activation_146[0][0]’]</p>
+<p>conv2d_152 (Conv2D) (None, 4, 4, 192) 215040 [‘activation_151[0][0]’]</p>
+<p>conv2d_153 (Conv2D) (None, 4, 4, 192) 147456 [‘average_pooling2d_14[0][0]’]</p>
+<p>batch_normalization_144 (Batch (None, 4, 4, 192) 576 [‘conv2d_144[0][0]’] Normalization)</p>
+<p>batch_normalization_147 (Batch (None, 4, 4, 192) 576 [‘conv2d_147[0][0]’] Normalization)</p>
+<p>batch_normalization_152 (Batch (None, 4, 4, 192) 576 [‘conv2d_152[0][0]’] Normalization)</p>
+<p>batch_normalization_153 (Batch (None, 4, 4, 192) 576 [‘conv2d_153[0][0]’] Normalization)</p>
+<p>activation_144 (Activation) (None, 4, 4, 192) 0 [‘batch_normalization_144[0][0]’]</p>
+<p>activation_147 (Activation) (None, 4, 4, 192) 0 [‘batch_normalization_147[0][0]’]</p>
+<p>activation_152 (Activation) (None, 4, 4, 192) 0 [‘batch_normalization_152[0][0]’]</p>
+<p>activation_153 (Activation) (None, 4, 4, 192) 0 [‘batch_normalization_153[0][0]’]</p>
+<p>mixed6 (Concatenate) (None, 4, 4, 768) 0 [‘activation_144[0][0]’, ‘activation_147[0][0]’, ‘activation_152[0][0]’, ‘activation_153[0][0]’]</p>
+<p>conv2d_158 (Conv2D) (None, 4, 4, 192) 147456 [‘mixed6[0][0]’]</p>
+<p>batch_normalization_158 (Batch (None, 4, 4, 192) 576 [‘conv2d_158[0][0]’] Normalization)</p>
+<p>activation_158 (Activation) (None, 4, 4, 192) 0 [‘batch_normalization_158[0][0]’]</p>
+<p>conv2d_159 (Conv2D) (None, 4, 4, 192) 258048 [‘activation_158[0][0]’]</p>
+<p>batch_normalization_159 (Batch (None, 4, 4, 192) 576 [‘conv2d_159[0][0]’] Normalization)</p>
+<p>activation_159 (Activation) (None, 4, 4, 192) 0 [‘batch_normalization_159[0][0]’]</p>
+<p>conv2d_155 (Conv2D) (None, 4, 4, 192) 147456 [‘mixed6[0][0]’]</p>
+<p>conv2d_160 (Conv2D) (None, 4, 4, 192) 258048 [‘activation_159[0][0]’]</p>
+<p>batch_normalization_155 (Batch (None, 4, 4, 192) 576 [‘conv2d_155[0][0]’] Normalization)</p>
+<p>batch_normalization_160 (Batch (None, 4, 4, 192) 576 [‘conv2d_160[0][0]’] Normalization)</p>
+<p>activation_155 (Activation) (None, 4, 4, 192) 0 [‘batch_normalization_155[0][0]’]</p>
+<p>activation_160 (Activation) (None, 4, 4, 192) 0 [‘batch_normalization_160[0][0]’]</p>
+<p>conv2d_156 (Conv2D) (None, 4, 4, 192) 258048 [‘activation_155[0][0]’]</p>
+<p>conv2d_161 (Conv2D) (None, 4, 4, 192) 258048 [‘activation_160[0][0]’]</p>
+<p>batch_normalization_156 (Batch (None, 4, 4, 192) 576 [‘conv2d_156[0][0]’] Normalization)</p>
+<p>batch_normalization_161 (Batch (None, 4, 4, 192) 576 [‘conv2d_161[0][0]’] Normalization)</p>
+<p>activation_156 (Activation) (None, 4, 4, 192) 0 [‘batch_normalization_156[0][0]’]</p>
+<p>activation_161 (Activation) (None, 4, 4, 192) 0 [‘batch_normalization_161[0][0]’]</p>
+<p>average_pooling2d_15 (AverageP (None, 4, 4, 768) 0 [‘mixed6[0][0]’] ooling2D)</p>
+<p>conv2d_154 (Conv2D) (None, 4, 4, 192) 147456 [‘mixed6[0][0]’]</p>
+<p>conv2d_157 (Conv2D) (None, 4, 4, 192) 258048 [‘activation_156[0][0]’]</p>
+<p>conv2d_162 (Conv2D) (None, 4, 4, 192) 258048 [‘activation_161[0][0]’]</p>
+<p>conv2d_163 (Conv2D) (None, 4, 4, 192) 147456 [‘average_pooling2d_15[0][0]’]</p>
+<p>batch_normalization_154 (Batch (None, 4, 4, 192) 576 [‘conv2d_154[0][0]’] Normalization)</p>
+<p>batch_normalization_157 (Batch (None, 4, 4, 192) 576 [‘conv2d_157[0][0]’] Normalization)</p>
+<p>batch_normalization_162 (Batch (None, 4, 4, 192) 576 [‘conv2d_162[0][0]’] Normalization)</p>
+<p>batch_normalization_163 (Batch (None, 4, 4, 192) 576 [‘conv2d_163[0][0]’] Normalization)</p>
+<p>activation_154 (Activation) (None, 4, 4, 192) 0 [‘batch_normalization_154[0][0]’]</p>
+<p>activation_157 (Activation) (None, 4, 4, 192) 0 [‘batch_normalization_157[0][0]’]</p>
+<p>activation_162 (Activation) (None, 4, 4, 192) 0 [‘batch_normalization_162[0][0]’]</p>
+<p>activation_163 (Activation) (None, 4, 4, 192) 0 [‘batch_normalization_163[0][0]’]</p>
+<p>mixed7 (Concatenate) (None, 4, 4, 768) 0 [‘activation_154[0][0]’, ‘activation_157[0][0]’, ‘activation_162[0][0]’, ‘activation_163[0][0]’]</p>
+<p>conv2d_166 (Conv2D) (None, 4, 4, 192) 147456 [‘mixed7[0][0]’]</p>
+<p>batch_normalization_166 (Batch (None, 4, 4, 192) 576 [‘conv2d_166[0][0]’] Normalization)</p>
+<p>activation_166 (Activation) (None, 4, 4, 192) 0 [‘batch_normalization_166[0][0]’]</p>
+<p>conv2d_167 (Conv2D) (None, 4, 4, 192) 258048 [‘activation_166[0][0]’]</p>
+<p>batch_normalization_167 (Batch (None, 4, 4, 192) 576 [‘conv2d_167[0][0]’] Normalization)</p>
+<p>activation_167 (Activation) (None, 4, 4, 192) 0 [‘batch_normalization_167[0][0]’]</p>
+<p>conv2d_164 (Conv2D) (None, 4, 4, 192) 147456 [‘mixed7[0][0]’]</p>
+<p>conv2d_168 (Conv2D) (None, 4, 4, 192) 258048 [‘activation_167[0][0]’]</p>
+<p>batch_normalization_164 (Batch (None, 4, 4, 192) 576 [‘conv2d_164[0][0]’] Normalization)</p>
+<p>batch_normalization_168 (Batch (None, 4, 4, 192) 576 [‘conv2d_168[0][0]’] Normalization)</p>
+<p>activation_164 (Activation) (None, 4, 4, 192) 0 [‘batch_normalization_164[0][0]’]</p>
+<p>activation_168 (Activation) (None, 4, 4, 192) 0 [‘batch_normalization_168[0][0]’]</p>
+<p>conv2d_165 (Conv2D) (None, 1, 1, 320) 552960 [‘activation_164[0][0]’]</p>
+<p>conv2d_169 (Conv2D) (None, 1, 1, 192) 331776 [‘activation_168[0][0]’]</p>
+<p>batch_normalization_165 (Batch (None, 1, 1, 320) 960 [‘conv2d_165[0][0]’] Normalization)</p>
+<p>batch_normalization_169 (Batch (None, 1, 1, 192) 576 [‘conv2d_169[0][0]’] Normalization)</p>
+<p>activation_165 (Activation) (None, 1, 1, 320) 0 [‘batch_normalization_165[0][0]’]</p>
+<p>activation_169 (Activation) (None, 1, 1, 192) 0 [‘batch_normalization_169[0][0]’]</p>
+<p>max_pooling2d_7 (MaxPooling2D) (None, 1, 1, 768) 0 [‘mixed7[0][0]’]</p>
+<p>mixed8 (Concatenate) (None, 1, 1, 1280) 0 [‘activation_165[0][0]’, ‘activation_169[0][0]’, ‘max_pooling2d_7[0][0]’]</p>
+<p>conv2d_174 (Conv2D) (None, 1, 1, 448) 573440 [‘mixed8[0][0]’]</p>
+<p>batch_normalization_174 (Batch (None, 1, 1, 448) 1344 [‘conv2d_174[0][0]’] Normalization)</p>
+<p>activation_174 (Activation) (None, 1, 1, 448) 0 [‘batch_normalization_174[0][0]’]</p>
+<p>conv2d_171 (Conv2D) (None, 1, 1, 384) 491520 [‘mixed8[0][0]’]</p>
+<p>conv2d_175 (Conv2D) (None, 1, 1, 384) 1548288 [‘activation_174[0][0]’]</p>
+<p>batch_normalization_171 (Batch (None, 1, 1, 384) 1152 [‘conv2d_171[0][0]’] Normalization)</p>
+<p>batch_normalization_175 (Batch (None, 1, 1, 384) 1152 [‘conv2d_175[0][0]’] Normalization)</p>
+<p>activation_171 (Activation) (None, 1, 1, 384) 0 [‘batch_normalization_171[0][0]’]</p>
+<p>activation_175 (Activation) (None, 1, 1, 384) 0 [‘batch_normalization_175[0][0]’]</p>
+<p>conv2d_172 (Conv2D) (None, 1, 1, 384) 442368 [‘activation_171[0][0]’]</p>
+<p>conv2d_173 (Conv2D) (None, 1, 1, 384) 442368 [‘activation_171[0][0]’]</p>
+<p>conv2d_176 (Conv2D) (None, 1, 1, 384) 442368 [‘activation_175[0][0]’]</p>
+<p>conv2d_177 (Conv2D) (None, 1, 1, 384) 442368 [‘activation_175[0][0]’]</p>
+<p>average_pooling2d_16 (AverageP (None, 1, 1, 1280) 0 [‘mixed8[0][0]’] ooling2D)</p>
+<p>conv2d_170 (Conv2D) (None, 1, 1, 320) 409600 [‘mixed8[0][0]’]</p>
+<p>batch_normalization_172 (Batch (None, 1, 1, 384) 1152 [‘conv2d_172[0][0]’] Normalization)</p>
+<p>batch_normalization_173 (Batch (None, 1, 1, 384) 1152 [‘conv2d_173[0][0]’] Normalization)</p>
+<p>batch_normalization_176 (Batch (None, 1, 1, 384) 1152 [‘conv2d_176[0][0]’] Normalization)</p>
+<p>batch_normalization_177 (Batch (None, 1, 1, 384) 1152 [‘conv2d_177[0][0]’] Normalization)</p>
+<p>conv2d_178 (Conv2D) (None, 1, 1, 192) 245760 [‘average_pooling2d_16[0][0]’]</p>
+<p>batch_normalization_170 (Batch (None, 1, 1, 320) 960 [‘conv2d_170[0][0]’] Normalization)</p>
+<p>activation_172 (Activation) (None, 1, 1, 384) 0 [‘batch_normalization_172[0][0]’]</p>
+<p>activation_173 (Activation) (None, 1, 1, 384) 0 [‘batch_normalization_173[0][0]’]</p>
+<p>activation_176 (Activation) (None, 1, 1, 384) 0 [‘batch_normalization_176[0][0]’]</p>
+<p>activation_177 (Activation) (None, 1, 1, 384) 0 [‘batch_normalization_177[0][0]’]</p>
+<p>batch_normalization_178 (Batch (None, 1, 1, 192) 576 [‘conv2d_178[0][0]’] Normalization)</p>
+<p>activation_170 (Activation) (None, 1, 1, 320) 0 [‘batch_normalization_170[0][0]’]</p>
+<p>mixed9_0 (Concatenate) (None, 1, 1, 768) 0 [‘activation_172[0][0]’, ‘activation_173[0][0]’]</p>
+<p>concatenate_2 (Concatenate) (None, 1, 1, 768) 0 [‘activation_176[0][0]’, ‘activation_177[0][0]’]</p>
+<p>activation_178 (Activation) (None, 1, 1, 192) 0 [‘batch_normalization_178[0][0]’]</p>
+<p>mixed9 (Concatenate) (None, 1, 1, 2048) 0 [‘activation_170[0][0]’, ‘mixed9_0[0][0]’, ‘concatenate_2[0][0]’, ‘activation_178[0][0]’]</p>
+<p>conv2d_183 (Conv2D) (None, 1, 1, 448) 917504 [‘mixed9[0][0]’]</p>
+<p>batch_normalization_183 (Batch (None, 1, 1, 448) 1344 [‘conv2d_183[0][0]’] Normalization)</p>
+<p>activation_183 (Activation) (None, 1, 1, 448) 0 [‘batch_normalization_183[0][0]’]</p>
+<p>conv2d_180 (Conv2D) (None, 1, 1, 384) 786432 [‘mixed9[0][0]’]</p>
+<p>conv2d_184 (Conv2D) (None, 1, 1, 384) 1548288 [‘activation_183[0][0]’]</p>
+<p>batch_normalization_180 (Batch (None, 1, 1, 384) 1152 [‘conv2d_180[0][0]’] Normalization)</p>
+<p>batch_normalization_184 (Batch (None, 1, 1, 384) 1152 [‘conv2d_184[0][0]’] Normalization)</p>
+<p>activation_180 (Activation) (None, 1, 1, 384) 0 [‘batch_normalization_180[0][0]’]</p>
+<p>activation_184 (Activation) (None, 1, 1, 384) 0 [‘batch_normalization_184[0][0]’]</p>
+<p>conv2d_181 (Conv2D) (None, 1, 1, 384) 442368 [‘activation_180[0][0]’]</p>
+<p>conv2d_182 (Conv2D) (None, 1, 1, 384) 442368 [‘activation_180[0][0]’]</p>
+<p>conv2d_185 (Conv2D) (None, 1, 1, 384) 442368 [‘activation_184[0][0]’]</p>
+<p>conv2d_186 (Conv2D) (None, 1, 1, 384) 442368 [‘activation_184[0][0]’]</p>
+<p>average_pooling2d_17 (AverageP (None, 1, 1, 2048) 0 [‘mixed9[0][0]’] ooling2D)</p>
+<p>conv2d_179 (Conv2D) (None, 1, 1, 320) 655360 [‘mixed9[0][0]’]</p>
+<p>batch_normalization_181 (Batch (None, 1, 1, 384) 1152 [‘conv2d_181[0][0]’] Normalization)</p>
+<p>batch_normalization_182 (Batch (None, 1, 1, 384) 1152 [‘conv2d_182[0][0]’] Normalization)</p>
+<p>batch_normalization_185 (Batch (None, 1, 1, 384) 1152 [‘conv2d_185[0][0]’] Normalization)</p>
+<p>batch_normalization_186 (Batch (None, 1, 1, 384) 1152 [‘conv2d_186[0][0]’] Normalization)</p>
+<p>conv2d_187 (Conv2D) (None, 1, 1, 192) 393216 [‘average_pooling2d_17[0][0]’]</p>
+<p>batch_normalization_179 (Batch (None, 1, 1, 320) 960 [‘conv2d_179[0][0]’] Normalization)</p>
+<p>activation_181 (Activation) (None, 1, 1, 384) 0 [‘batch_normalization_181[0][0]’]</p>
+<p>activation_182 (Activation) (None, 1, 1, 384) 0 [‘batch_normalization_182[0][0]’]</p>
+<p>activation_185 (Activation) (None, 1, 1, 384) 0 [‘batch_normalization_185[0][0]’]</p>
+<p>activation_186 (Activation) (None, 1, 1, 384) 0 [‘batch_normalization_186[0][0]’]</p>
+<p>batch_normalization_187 (Batch (None, 1, 1, 192) 576 [‘conv2d_187[0][0]’] Normalization)</p>
+<p>activation_179 (Activation) (None, 1, 1, 320) 0 [‘batch_normalization_179[0][0]’]</p>
+<p>mixed9_1 (Concatenate) (None, 1, 1, 768) 0 [‘activation_181[0][0]’, ‘activation_182[0][0]’]</p>
+<p>concatenate_3 (Concatenate) (None, 1, 1, 768) 0 [‘activation_185[0][0]’, ‘activation_186[0][0]’]</p>
+<p>activation_187 (Activation) (None, 1, 1, 192) 0 [‘batch_normalization_187[0][0]’]</p>
+<p>mixed10 (Concatenate) (None, 1, 1, 2048) 0 [‘activation_179[0][0]’, ‘mixed9_1[0][0]’, ‘concatenate_3[0][0]’, ‘activation_187[0][0]’]</p>
+<p>global_average_pooling2d_1 (Gl (None, 2048) 0 [‘mixed10[0][0]’] obalAveragePooling2D)</p>
+<p>dense_2 (Dense) (None, 1024) 2098176 [‘global_average_pooling2d_1[0][0 ]’]</p>
+<p>dense_3 (Dense) (None, 1) 1025 [‘dense_2[0][0]’]</p>
+<p>================================================================================================== Total params: 23,901,985 Trainable params: 2,099,201 Non-trainable params: 21,802,784 __________________________________________________________________________________________________</p>
+<pre><code>saveLoadpath = '/content/drive/MyDrive/RTL_Lubricity/Machine_Vision/Hucklebery/6_8_2023/Test_1/'
+
+Imported_model.save(saveLoadpath + 'Test_1_A.h5')</code></pre>
+<pre><code>saveLoadpath = '/content/drive/MyDrive/RTL_Lubricity/Machine_Vision/Hucklebery/6_8_2023/Test_1/'
+
+from keras.models import load_model
+Imported_model = load_model(saveLoadpath + 'Test_1_A.h5')</code></pre>
+</section>
+</section>
+<section id="validation" class="level1">
+<h1>Validation</h1>
+<p>Two images which have not been used in training the model are now imported to verfy the model’s accuracy.</p>
+<pre><code>lub_pred = cv2.imread('/content/drive/MyDrive/RTL_Lubricity/Machine_Vision/Hucklebery/6_8_2023/Test_1/Cropped_frames_Test_1_A/Index_2019.jpg')
+lub_pred = cv2.resize(lub_pred, (100,100))
+
+ul_pred = cv2.imread('/content/drive/MyDrive/RTL_Lubricity/Machine_Vision/Hucklebery/6_8_2023/Test_1/Cropped_frames_Test_1_A/Index_862.jpg')
+ul_pred = cv2.resize(ul_pred, (100,100))</code></pre>
+<pre><code>cv2_imshow(lub_pred)
+cv2_imshow(ul_pred)</code></pre>
+<p><img src="images/17.png" class="img-fluid"></p>
+<p><img src="images/18.png" class="img-fluid"></p>
+<pre><code>lub_pred = lub_pred.astype('float32') / 255.0
+ul_pred = ul_pred.astype('float32') / 255.0</code></pre>
+<pre><code>lub_pred = np.array(lub_pred)
+ul_pred = np.array(ul_pred)
+
+lub_pred = np.expand_dims(lub_pred, axis=0)
+ul_pred = np.expand_dims(ul_pred, axis=0)</code></pre>
+<pre><code>print(Imported_model.predict(lub_pred))</code></pre>
+<p>1/1 [==============================] - 1s 1s/step [[0.9996816]]</p>
+<pre><code>print(Imported_model.predict(ul_pred))</code></pre>
+<p>1/1 [==============================] - 0s 31ms/step [[0.00065835]]</p>
+<p>Now, we do the prediction over the entire data</p>
+<pre><code>prediction = []
+
+for i in range(0, len(df_new['processed_images'])):
+  prediction.append(np.array(cv2.resize(df_new.iloc[i]['processed_images'], df_new.iloc[0]['processed_images'].shape[0:2])))</code></pre>
+<pre><code>prediction = np.array(prediction)
+prediction = prediction.astype('float32') / 255.0
+pred_label = Imported_model.predict(prediction)</code></pre>
+<p>106/106 [==============================] - 50s 470ms/step</p>
+<pre><code>final_label = []
+
+for i in range(0, len(pred_label)):
+  if pred_label[i]&gt;=0.6:
+    final_label.append(1)
+  if pred_label[i]&lt;=0.4:
+    final_label.append(0)
+  if (pred_label[i]&gt;0.4) &amp; (pred_label[i]&lt;0.6):
+    final_label.append(-1)</code></pre>
+<pre><code>time = 16
+imgt = []
+t = []
+fps = 1 / 10
+
+cap = cv2.VideoCapture(video_path)
+clip_duration = cap.get(cv2.CAP_PROP_FRAME_COUNT) / cap.get(cv2.CAP_PROP_FPS)
+
+while (time)&lt;clip_duration:
+  cap.set(cv2.CAP_PROP_POS_MSEC,time*1000)
+  hasFrames,image0 = cap.read()
+  if hasFrames:
+    image = image0
+    imgt.append(image)
+    t.append(time)
+  time += fps
+
+shots = imgt</code></pre>
+<pre><code>shots = []
+idx = []
+
+for i in range(0, df_new['time'].shape[0]):
+  if os.path.exists(dirpath + 'Index_' + str(i) + '.jpg'):
+    shots.append(cv2.imread(dirpath + 'Index_' + str(i) + '.jpg'))
+    idx.append('Index_' + str(i))
+  else:
+    break
+
+
+df_new['Predicted_labels'] = final_label
+interactive_plot_scatter(df_new, 'time', 'Predicted_labels', xlabel="Time(s)", ylabel="Lubrication")</code></pre>
+<p><img src="images/19.png" class="img-fluid"></p>
+<pre><code>df_new.to_csv('/content/drive/MyDrive/RTL_Lubricity/Machine_Vision/Hucklebery/6_8_2023/Test_1/Predicted_Test1A.csv')</code></pre>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>

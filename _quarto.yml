@@ -1,5 +1,6 @@
 project:
   type: website
+  output-dir: docs
 
 website:
   title: "MortezaML"
@@ -7,9 +8,9 @@ website:
     right:
       - about.qmd
       - icon: github
-        href: https://github.com/
-      - icon: twitter
-        href: https://twitter.com
+        href: https://github.com/smhajimirzaei
+      - icon: linkedin
+        href: https://www.linkedin.com/in/s-morteza-h-mirzaei/
 format:
   html:
     theme: cosmo
