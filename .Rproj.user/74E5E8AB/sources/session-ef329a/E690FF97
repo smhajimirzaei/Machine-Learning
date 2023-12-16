@@ -1,14 +1,14 @@
 {
-    "id": "9771AE3F",
-    "path": "C:/Users/smhaj/Desktop/VT/MortezaML/posts/Clustering/index.qmd",
-    "project_path": "posts/Clustering/index.qmd",
+    "id": "E690FF97",
+    "path": "C:/Users/smhaj/Desktop/VT/MortezaML/index.qmd",
+    "project_path": "index.qmd",
     "type": "quarto_markdown",
-    "hash": "1451978263",
+    "hash": "0",
     "contents": "",
     "dirty": false,
-    "created": 1702158552447.0,
+    "created": 1702149350876.0,
     "source_on_save": false,
-    "relative_order": 3,
+    "relative_order": 1,
     "properties": {
         "rmdVisualMode": "true",
         "rmdVisualWrapConfigured": "true",
@@ -16,16 +16,16 @@
         "Source": "Source",
         "docOutlineVisible": "1",
         "rmdVisualCollapsedChunks": "",
-        "rmdVisualModeLocation": "84:0",
         "cursorPosition": "0,0",
-        "scrollLine": "0"
+        "scrollLine": "0",
+        "rmdVisualModeLocation": "2:0"
     },
     "folds": "",
-    "lastKnownWriteTime": 1702243099,
+    "lastKnownWriteTime": 1702238077,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1702243099244,
+    "last_content_update": 1702238077613,
     "read_only": false,
     "read_only_alternatives": []
 }

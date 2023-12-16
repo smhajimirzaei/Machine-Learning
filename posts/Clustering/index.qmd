@@ -24,12 +24,12 @@ Several steps had been taken which will non be discusseed here. In nutshel,
 
 ![](images/8.png)
 
-```         
+``` python
 from google.colab import drive
 drive.mount('/content/drive')
 ```
 
-```         
+``` python
 import pandas as pd
 import numpy as np
 from sklearn import preprocessing
@@ -46,7 +46,7 @@ from sklearn.metrics import classification_report
 from sklearn.metrics import precision_recall_fscore_support as score
 ```
 
-```         
+``` python
 def interactive_plot_scatter(df, x_axis, y_axis):
   import plotly.express as px
 
@@ -112,7 +112,7 @@ def remove_outliers(df):
   return df
 ```
 
-```         
+``` python
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -201,13 +201,13 @@ def custom_multiplot(x, y_sets, title=None, xlabel=None, ylabel=None, legend_lab
 
 In the dataset we have two parameters. Fist one +2 sigma right/left velocity within the entire data and the other one is +2 sigma right/left velocity within each segment.
 
-```         
+``` python
 df = pd.read_csv('/content/drive/MyDrive/ML/SLineNS2.csv')
 ```
 
 In here, we will only keep the maximum value of right or left rail for each parameter. The reason is that in this case if any of the left or right rail is loose it will mark it as loose.
 
-```         
+``` python
 def max_FromAll(row):
     return max(row['Right_Plus_2Sigma_FromAll_Lateral_Weighted'], row['Left_Plus_2Sigma_FromAll_Lateral_Weighted'])
 def max_FromSegment(row):
@@ -220,7 +220,7 @@ df['max_value_FromSegment'] = df.apply(max_FromSegment, axis=1)
 
 ![](images/9.png)
 
-```         
+``` python
 X = df[['max_value_FromAll', 'max_value_FromSegment']]
 n_clusters = 4 # we need 5 clusters based on elbow method
 
@@ -228,11 +228,11 @@ gmm = GaussianMixture(n_components=5, random_state=42)
 gmm.fit(X)
 ```
 
-```         
+``` python
 df['Cluster'] = gmm.predict(X)
 ```
 
-```         
+``` python
 sns.scatterplot(x='max_value_FromAll', y='max_value_FromSegment', hue='Cluster', data=df, palette=['green', 'red', 'purple', 'brown', 'blue'])
 plt.title('Gaussian Mixture Model Clustering')
 plt.show()
@@ -240,7 +240,7 @@ plt.show()
 
 ![](images/10.png)
 
-```         
+``` python
 sns.scatterplot(x='Segment', y='max_value_FromAll', hue='Cluster', data=df, palette=['green', 'red', 'purple', 'brown', 'blue'])
 plt.title('Gaussian Mixture Model Clustering')
 plt.show()

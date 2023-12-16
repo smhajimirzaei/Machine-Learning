@@ -22,6 +22,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -148,165 +182,165 @@ ul.task-list li input[type="checkbox"] {
 
 
 <p>This study develops an effective system for in-motion and autonomous identification of crossties and ballast, toward implementing non-contact sensors that can evaluate the condition of railroad structures. An array of sensors that include distance LIDAR sensors, magnetic sensors, and cameras are employed to test a prototype system in motion, onboard a remotely controlled track cart that can travel at speeds of up to 10 mph. The tests are performed on revenue-service tracks and the measurements are used to develop autonomous post-processing approaches that can be readily adopted by the railroads. Two distinct techniques for the LIDAR sensors are explored. Next, a machine learning model is developed to achieve the task with potentially more accuracy. To this end, three machine learning models, using three types of inputs, are developed to identify the optimal model. The DecisionTree algorithm coupled with the standard deviation of the difference between two distance sensors proved to be the most effective.</p>
-<pre><code>from google.colab import drive
-drive.mount('/content/drive')</code></pre>
-<pre><code>!pip install moviepy
-!pip3 install imageio==2.4.1
-!pip install --upgrade imageio-ffmpeg</code></pre>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> google.colab <span class="im">import</span> drive</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>drive.mount(<span class="st">'/content/drive'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install moviepy</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip3 install imageio<span class="op">==</span><span class="fl">2.4.1</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install <span class="op">--</span>upgrade imageio<span class="op">-</span>ffmpeg</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Import the required libraries</p>
-<pre><code>import cv2
-import os
-import numpy as np
-import pandas as pd
-from google.colab.patches import cv2_imshow
-from numpy import genfromtxt
-from PIL import Image
-import os
-import moviepy.editor as mp
-from sklearn.utils import shuffle
-from sklearn.model_selection import train_test_split</code></pre>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> cv2</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> google.colab.patches <span class="im">import</span> cv2_imshow</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> numpy <span class="im">import</span> genfromtxt</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> PIL <span class="im">import</span> Image</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> moviepy.editor <span class="im">as</span> mp</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.utils <span class="im">import</span> shuffle</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <section id="reduce-size" class="level1">
 <h1>Reduce size</h1>
 <p>Define the video path and a path to save the reduced-size frames</p>
-<pre><code>video_path = '/content/drive/MyDrive/Track Buckling Project/230306 - Third Huckleberry Trail Test/GoPro/GX011334.MP4'
-save_path = '/content/drive/MyDrive/Vision/Huckelberry/March_1'
-
-cap = cv2.VideoCapture(video_path)</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>video_path <span class="op">=</span> <span class="st">'/content/drive/MyDrive/Track Buckling Project/230306 - Third Huckleberry Trail Test/GoPro/GX011334.MP4'</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>save_path <span class="op">=</span> <span class="st">'/content/drive/MyDrive/Vision/Huckelberry/March_1'</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>cap <span class="op">=</span> cv2.VideoCapture(video_path)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Here is a frame of this video</p>
-<pre><code>cap.set(cv2.CAP_PROP_POS_MSEC,500000)
-hasFrames,image0 = cap.read()
-
-print("The size of the frame : ", image0.shape)
-cv2_imshow(image0)</code></pre>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>cap.<span class="bu">set</span>(cv2.CAP_PROP_POS_MSEC,<span class="dv">500000</span>)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>hasFrames,image0 <span class="op">=</span> cap.read()</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"The size of the frame : "</span>, image0.shape)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>cv2_imshow(image0)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>The size of the frame : (2988, 5312, 3)</p>
 <p><img src="images/20.png" class="img-fluid"></p>
-<pre><code>fps = cap.get(cv2.CAP_PROP_FPS)
-print("Frame rate of the video is : ", fps)</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>fps <span class="op">=</span> cap.get(cv2.CAP_PROP_FPS)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Frame rate of the video is : "</span>, fps)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Frame rate of the video is : 29.97002997002997</p>
-<pre><code>clip_duration = cap.get(cv2.CAP_PROP_FRAME_COUNT) / cap.get(cv2.CAP_PROP_FPS)
-print("Clip duration : {} (s)".format(clip_duration))</code></pre>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>clip_duration <span class="op">=</span> cap.get(cv2.CAP_PROP_FRAME_COUNT) <span class="op">/</span> cap.get(cv2.CAP_PROP_FPS)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Clip duration : </span><span class="sc">{}</span><span class="st"> (s)"</span>.<span class="bu">format</span>(clip_duration))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Clip duration : 766.6325333333333 (s)</p>
 <p>Since processing 30 frames per second is too demanding, we need to resample the video to reduce computation time while still maintaining satisfactory spatial resolution. We opted for 10 fps</p>
-<pre><code>sp = 1 / 10</code></pre>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>sp <span class="op">=</span> <span class="dv">1</span> <span class="op">/</span> <span class="dv">10</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Each frame captures a wide range of views. To enhance precision, only a specific section of the image will be analyzed, while the rest will be ignored.</p>
-<pre><code>cv2_imshow(image0[:, int(image0.shape[1]/2-100):int(image0.shape[1]/2+100)])</code></pre>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>cv2_imshow(image0[:, <span class="bu">int</span>(image0.shape[<span class="dv">1</span>]<span class="op">/</span><span class="dv">2</span><span class="op">-</span><span class="dv">100</span>):<span class="bu">int</span>(image0.shape[<span class="dv">1</span>]<span class="op">/</span><span class="dv">2</span><span class="op">+</span><span class="dv">100</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><img src="images/21.png" class="img-fluid"></p>
 <p>In this block all the frames will be shrinked by the factor of 1/10</p>
-<pre><code>clip = mp.VideoFileClip(video_path)
-
-my_width = image0.shape[0]//10
-my_height = image0.shape[1]//10
-
-clip_resized = clip.resize(newsize=(my_width,my_height))
-clip_resized.write_videofile(save_path + '/resized_video/1334_resized.MP4')</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>clip <span class="op">=</span> mp.VideoFileClip(video_path)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>my_width <span class="op">=</span> image0.shape[<span class="dv">0</span>]<span class="op">//</span><span class="dv">10</span></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>my_height <span class="op">=</span> image0.shape[<span class="dv">1</span>]<span class="op">//</span><span class="dv">10</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>clip_resized <span class="op">=</span> clip.resize(newsize<span class="op">=</span>(my_width,my_height))</span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>clip_resized.write_videofile(save_path <span class="op">+</span> <span class="st">'/resized_video/1334_resized.MP4'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="framing" class="level1">
 <h1>Framing</h1>
-<pre><code>video_path = save_path + '/resized_video/1334_resized.MP4' # reduced-size video path
-
-cap = cv2.VideoCapture(video_path)
-cap.set(cv2.CAP_PROP_POS_MSEC,500000)
-hasFrames,image0 = cap.read()
-
-cv2_imshow(image0[:, int(image0.shape[1]/2-10):int(image0.shape[1]/2+10)])</code></pre>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>video_path <span class="op">=</span> save_path <span class="op">+</span> <span class="st">'/resized_video/1334_resized.MP4'</span> <span class="co"># reduced-size video path</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>cap <span class="op">=</span> cv2.VideoCapture(video_path)</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>cap.<span class="bu">set</span>(cv2.CAP_PROP_POS_MSEC,<span class="dv">500000</span>)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>hasFrames,image0 <span class="op">=</span> cap.read()</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>cv2_imshow(image0[:, <span class="bu">int</span>(image0.shape[<span class="dv">1</span>]<span class="op">/</span><span class="dv">2</span><span class="op">-</span><span class="dv">10</span>):<span class="bu">int</span>(image0.shape[<span class="dv">1</span>]<span class="op">/</span><span class="dv">2</span><span class="op">+</span><span class="dv">10</span>)])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="save-the-frames" class="level1">
 <h1>Save the frames</h1>
 <p>In this block all the frames will be saved as seperate images for easier future use. The name of each frame will be: Index_“frame number”.jpg</p>
-<pre><code>time = 0
-img = []
-t = []
-
-c = 0
-path = '/content/drive/MyDrive/Vision/Huckelberry/March_6/1334/10fps/Index_'
-
-while (time+500)&lt;clip_duration:
-  cap.set(cv2.CAP_PROP_POS_MSEC,(time+500)*1000)
-  hasFrames,image = cap.read()
-  if hasFrames:
-    image = image[:, int(image.shape[1]/2-10):int(image.shape[1]/2+10)]
-    cv2.imwrite(path + str(c) + '.jpg', image)
-    img.append(image)
-    t.append(time)
-    c = c + 1
-  time += fps</code></pre>
-<pre><code>d = {'processed_images': img, 'time': t}
-df = pd.DataFrame(data=d)
-
-df.to_csv('/content/drive/MyDrive/Track Buckling Project/230306 - Third Huckleberry Trail Test/GoPro/1334_resized.csv')</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>time <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>img <span class="op">=</span> []</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> []</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>c <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>path <span class="op">=</span> <span class="st">'/content/drive/MyDrive/Vision/Huckelberry/March_6/1334/10fps/Index_'</span></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (time<span class="op">+</span><span class="dv">500</span>)<span class="op">&lt;</span>clip_duration:</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>  cap.<span class="bu">set</span>(cv2.CAP_PROP_POS_MSEC,(time<span class="op">+</span><span class="dv">500</span>)<span class="op">*</span><span class="dv">1000</span>)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>  hasFrames,image <span class="op">=</span> cap.read()</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> hasFrames:</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>    image <span class="op">=</span> image[:, <span class="bu">int</span>(image.shape[<span class="dv">1</span>]<span class="op">/</span><span class="dv">2</span><span class="op">-</span><span class="dv">10</span>):<span class="bu">int</span>(image.shape[<span class="dv">1</span>]<span class="op">/</span><span class="dv">2</span><span class="op">+</span><span class="dv">10</span>)]</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>    cv2.imwrite(path <span class="op">+</span> <span class="bu">str</span>(c) <span class="op">+</span> <span class="st">'.jpg'</span>, image)</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>    img.append(image)</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>    t.append(time)</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>    c <span class="op">=</span> c <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>  time <span class="op">+=</span> fps</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>d <span class="op">=</span> {<span class="st">'processed_images'</span>: img, <span class="st">'time'</span>: t}</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>df <span class="op">=</span> pd.DataFrame(data<span class="op">=</span>d)</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>df.to_csv(<span class="st">'/content/drive/MyDrive/Track Buckling Project/230306 - Third Huckleberry Trail Test/GoPro/1334_resized.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="load-the-data" class="level1">
 <h1>Load the data</h1>
-<pre><code>df_new = pd.read_csv('/content/drive/MyDrive/Track Buckling Project/230306 - Third Huckleberry Trail Test/GoPro/1334_resized.csv')</code></pre>
-<pre><code>dirpath = '/content/drive/MyDrive/Vision/Huckelberry/March_6/1334/10fps/'</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>df_new <span class="op">=</span> pd.read_csv(<span class="st">'/content/drive/MyDrive/Track Buckling Project/230306 - Third Huckleberry Trail Test/GoPro/1334_resized.csv'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>dirpath <span class="op">=</span> <span class="st">'/content/drive/MyDrive/Vision/Huckelberry/March_6/1334/10fps/'</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Reload the images and their respective index</p>
-<pre><code>shots = []
-idx = []
-
-for i in range(0, df_new['time'].shape[0]):
-  if os.path.exists(dirpath + 'Index_' + str(i) + '.jpg'):
-    shots.append(cv2.imread(dirpath + 'Index_' + str(i) + '.jpg'))
-    idx.append('Index_' + str(i))
-  else:
-    break
-
-
-df_new['image_index'] = idx
-df_new['processed_images'] = shots</code></pre>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>shots <span class="op">=</span> []</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>idx <span class="op">=</span> []</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, df_new[<span class="st">'time'</span>].shape[<span class="dv">0</span>]):</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> os.path.exists(dirpath <span class="op">+</span> <span class="st">'Index_'</span> <span class="op">+</span> <span class="bu">str</span>(i) <span class="op">+</span> <span class="st">'.jpg'</span>):</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>    shots.append(cv2.imread(dirpath <span class="op">+</span> <span class="st">'Index_'</span> <span class="op">+</span> <span class="bu">str</span>(i) <span class="op">+</span> <span class="st">'.jpg'</span>))</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>    idx.append(<span class="st">'Index_'</span> <span class="op">+</span> <span class="bu">str</span>(i))</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">else</span>:</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">break</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a>df_new[<span class="st">'image_index'</span>] <span class="op">=</span> idx</span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>df_new[<span class="st">'processed_images'</span>] <span class="op">=</span> shots</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="training" class="level1">
 <h1>Training</h1>
 <section id="labeling" class="level2">
 <h2 class="anchored" data-anchor-id="labeling">Labeling</h2>
 <p>Before training the model, we need to manually label the images. For this purpose, a section of the dataset is chosen and labeled. The indices for all the ties in that specific section are saved in the following dataframe.</p>
-<pre><code>tie_index = pd.read_excel('/content/drive/MyDrive/Vision/Huckelberry/March_6/1334/10fps/Training/tie_index.xlsx')</code></pre>
-<pre><code>label = np.zeros(df_new['image_index'].shape[0])
-
-for i in tie_index['tie_index']:
-  label[i] = 1
-
-df_new['labels'] = label
-df_train = df_new[(df_new['Unnamed: 0']&gt;=47) &amp; (df_new['Unnamed: 0']&lt;=193)]</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>tie_index <span class="op">=</span> pd.read_excel(<span class="st">'/content/drive/MyDrive/Vision/Huckelberry/March_6/1334/10fps/Training/tie_index.xlsx'</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>label <span class="op">=</span> np.zeros(df_new[<span class="st">'image_index'</span>].shape[<span class="dv">0</span>])</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> tie_index[<span class="st">'tie_index'</span>]:</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  label[i] <span class="op">=</span> <span class="dv">1</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>df_new[<span class="st">'labels'</span>] <span class="op">=</span> label</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>df_train <span class="op">=</span> df_new[(df_new[<span class="st">'Unnamed: 0'</span>]<span class="op">&gt;=</span><span class="dv">47</span>) <span class="op">&amp;</span> (df_new[<span class="st">'Unnamed: 0'</span>]<span class="op">&lt;=</span><span class="dv">193</span>)]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Defining the features</p>
-<pre><code>features = []
-
-for i in range(0, len(df_train['processed_images'])):
-  features.append(np.array(cv2.resize(df_train.iloc[i]['processed_images'], (100, 500))))
-
-
-features = np.array(features)</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>features <span class="op">=</span> []</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="bu">len</span>(df_train[<span class="st">'processed_images'</span>])):</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  features.append(np.array(cv2.resize(df_train.iloc[i][<span class="st">'processed_images'</span>], (<span class="dv">100</span>, <span class="dv">500</span>))))</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>features <span class="op">=</span> np.array(features)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Defining the labels</p>
-<pre><code>labels = df_train['labels']</code></pre>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> df_train[<span class="st">'labels'</span>]</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Normalizing the features</p>
-<pre><code>features = features.astype('float32') / 255.0</code></pre>
+<div class="sourceCode" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>features <span class="op">=</span> features.astype(<span class="st">'float32'</span>) <span class="op">/</span> <span class="fl">255.0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="traintest-split" class="level2">
 <h2 class="anchored" data-anchor-id="traintest-split">Train/Test Split</h2>
-<pre><code>train_x, test_x, train_y, test_y = train_test_split(features, labels, test_size=0.2, stratify=labels)</code></pre>
+<div class="sourceCode" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>train_x, test_x, train_y, test_y <span class="op">=</span> train_test_split(features, labels, test_size<span class="op">=</span><span class="fl">0.2</span>, stratify<span class="op">=</span>labels)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>According to the block below we have 117 data points in training set and 30 data points in test set</p>
-<pre><code>print(train_x.shape)
-print(train_y.shape)
-print(test_x.shape)
-print(test_y.shape)</code></pre>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(train_x.shape)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(train_y.shape)</span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(test_x.shape)</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(test_y.shape)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>(117, 500, 100, 3) (117,) (30, 500, 100, 3) (30,)</p>
-<pre><code>from keras.applications.inception_v3 import InceptionV3
-from keras.preprocessing import image
-from keras.models import Model, Sequential
-from keras.layers import Dense, GlobalAveragePooling2D, Dropout, Flatten, Dense</code></pre>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> keras.applications.inception_v3 <span class="im">import</span> InceptionV3</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> keras.preprocessing <span class="im">import</span> image</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> keras.models <span class="im">import</span> Model, Sequential</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> keras.layers <span class="im">import</span> Dense, GlobalAveragePooling2D, Dropout, Flatten, Dense</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="importing-inception-v3" class="level2">
 <h2 class="anchored" data-anchor-id="importing-inception-v3">Importing Inception V3</h2>
-<pre><code>base_model = InceptionV3(weights='imagenet', include_top=False,input_shape=(train_x.shape[1],train_x.shape[2],train_x.shape[3]))
-for layer in base_model.layers:
-    layer.trainable = False
-
-x = base_model.output
-x = GlobalAveragePooling2D()(x)
-x = Dense(1024, activation='relu')(x)
-predictions = Dense(1, activation='sigmoid')(x)
-
-Imported_model = Model(inputs=base_model.input, outputs=predictions)</code></pre>
-<pre><code>Imported_model.summary()</code></pre>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>base_model <span class="op">=</span> InceptionV3(weights<span class="op">=</span><span class="st">'imagenet'</span>, include_top<span class="op">=</span><span class="va">False</span>,input_shape<span class="op">=</span>(train_x.shape[<span class="dv">1</span>],train_x.shape[<span class="dv">2</span>],train_x.shape[<span class="dv">3</span>]))</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> layer <span class="kw">in</span> base_model.layers:</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    layer.trainable <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> base_model.output</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> GlobalAveragePooling2D()(x)</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> Dense(<span class="dv">1024</span>, activation<span class="op">=</span><span class="st">'relu'</span>)(x)</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>predictions <span class="op">=</span> Dense(<span class="dv">1</span>, activation<span class="op">=</span><span class="st">'sigmoid'</span>)(x)</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb25-10"><a href="#cb25-10" aria-hidden="true" tabindex="-1"></a>Imported_model <span class="op">=</span> Model(inputs<span class="op">=</span>base_model.<span class="bu">input</span>, outputs<span class="op">=</span>predictions)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>Imported_model.summary()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Model: “model_1” __________________________________________________________________________________________________ Layer (type) Output Shape Param # Connected to ================================================================================================== input_2 (InputLayer) [(None, 500, 100, 3)] 0 []</p>
 <p>conv2d_94 (Conv2D) (None, 249, 49, 32) 864 [‘input_2[0][0]’]</p>
 <p>batch_normalization_94 (Ba (None, 249, 49, 32) 96 [‘conv2d_94[0][0]’] tchNormalization)</p>
@@ -623,54 +657,54 @@ Imported_model = Model(inputs=base_model.input, outputs=predictions)</code></pre
 <p>dense_3 (Dense) (None, 1) 1025 [‘dense_2[0][0]’]</p>
 <p>================================================================================================== Total params: 23901985 (91.18 MB) Trainable params: 2099201 (8.01 MB) Non-trainable params: 21802784 (83.17 MB) _____________________________________________________________________________________________</p>
 <p>Adam is our optimizer and binary_crossentropy is the loss function</p>
-<pre><code>Imported_model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
-
-Imported_model.fit(train_x, train_y, epochs = 5, batch_size = 256, verbose=1, validation_data=(test_x, test_y))</code></pre>
+<div class="sourceCode" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>Imported_model.<span class="bu">compile</span>(optimizer<span class="op">=</span><span class="st">'adam'</span>, loss<span class="op">=</span><span class="st">'binary_crossentropy'</span>, metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>Imported_model.fit(train_x, train_y, epochs <span class="op">=</span> <span class="dv">5</span>, batch_size <span class="op">=</span> <span class="dv">256</span>, verbose<span class="op">=</span><span class="dv">1</span>, validation_data<span class="op">=</span>(test_x, test_y))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 <section id="save-load-the-model" class="level2">
 <h2 class="anchored" data-anchor-id="save-load-the-model">Save / Load the model</h2>
-<pre><code>Imported_model.save('/content/drive/MyDrive/Vision/Huckelberry/March_6/1334/10fps/Training/myModel.h5')
-#Imported_model.save_weights("myModel2.h5", '/content/drive/MyDrive/Vision/Huckelberry/March_6/1334/10fps/Training')</code></pre>
-<pre><code>from keras.models import load_model
-Imported_model = load_model('/content/drive/MyDrive/Vision/Huckelberry/March_6/1334/10fps/Training/myModel.h5')
-#new_model.load_weights("myModel2.h5")</code></pre>
+<div class="sourceCode" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>Imported_model.save(<span class="st">'/content/drive/MyDrive/Vision/Huckelberry/March_6/1334/10fps/Training/myModel.h5'</span>)</span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a><span class="co">#Imported_model.save_weights("myModel2.h5", '/content/drive/MyDrive/Vision/Huckelberry/March_6/1334/10fps/Training')</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> keras.models <span class="im">import</span> load_model</span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>Imported_model <span class="op">=</span> load_model(<span class="st">'/content/drive/MyDrive/Vision/Huckelberry/March_6/1334/10fps/Training/myModel.h5'</span>)</span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a><span class="co">#new_model.load_weights("myModel2.h5")</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </section>
 </section>
 <section id="test-over-two-unseen-image" class="level1">
 <h1>Test over two unseen image</h1>
-<pre><code>tie_pred = cv2.imread('/content/drive/MyDrive/Vision/Huckelberry/March_6/1334/10fps/Index_237.jpg')
-tie_pred = cv2.resize(tie_pred, (100, 500))
-
-bal_pred = cv2.imread('/content/drive/MyDrive/Vision/Huckelberry/March_6/1334/10fps/Index_241.jpg')
-bal_pred = cv2.resize(bal_pred, (100, 500))</code></pre>
-<pre><code>cv2_imshow(tie_pred)
-cv2_imshow(bal_pred)</code></pre>
+<div class="sourceCode" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>tie_pred <span class="op">=</span> cv2.imread(<span class="st">'/content/drive/MyDrive/Vision/Huckelberry/March_6/1334/10fps/Index_237.jpg'</span>)</span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>tie_pred <span class="op">=</span> cv2.resize(tie_pred, (<span class="dv">100</span>, <span class="dv">500</span>))</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>bal_pred <span class="op">=</span> cv2.imread(<span class="st">'/content/drive/MyDrive/Vision/Huckelberry/March_6/1334/10fps/Index_241.jpg'</span>)</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>bal_pred <span class="op">=</span> cv2.resize(bal_pred, (<span class="dv">100</span>, <span class="dv">500</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>cv2_imshow(tie_pred)</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>cv2_imshow(bal_pred)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p><img src="images/22.png" class="img-fluid"></p>
 <p><img src="images/23.png" class="img-fluid"></p>
-<pre><code>tie_pred = tie_pred.astype('float32') / 255.0
-bal_pred = bal_pred.astype('float32') / 255.0</code></pre>
-<pre><code>tie_pred = np.array(tie_pred)
-bal_pred = np.array(bal_pred)
-
-tie_pred = np.expand_dims(tie_pred, axis=0)
-bal_pred = np.expand_dims(bal_pred, axis=0)</code></pre>
-<pre><code>print("Probability of a ballast image to be tie : ",Imported_model.predict(bal_pred))</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>tie_pred <span class="op">=</span> tie_pred.astype(<span class="st">'float32'</span>) <span class="op">/</span> <span class="fl">255.0</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>bal_pred <span class="op">=</span> bal_pred.astype(<span class="st">'float32'</span>) <span class="op">/</span> <span class="fl">255.0</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>tie_pred <span class="op">=</span> np.array(tie_pred)</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>bal_pred <span class="op">=</span> np.array(bal_pred)</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a>tie_pred <span class="op">=</span> np.expand_dims(tie_pred, axis<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>bal_pred <span class="op">=</span> np.expand_dims(bal_pred, axis<span class="op">=</span><span class="dv">0</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Probability of a ballast image to be tie : "</span>,Imported_model.predict(bal_pred))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>1/1 [==============================] - 0s 170ms/step Probability of a ballast image to be tie : [[0.02516897]]</p>
-<pre><code>print("Probability of a tie image to be tie : ",Imported_model.predict(tie_pred))</code></pre>
+<div class="sourceCode" id="cb35"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Probability of a tie image to be tie : "</span>,Imported_model.predict(tie_pred))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>1/1 [==============================] - 0s 80ms/step Probability of a tie image to be tie : [[1.]]</p>
 </section>
 <section id="do-the-prediction-over-the-entire-dataset" class="level1">
 <h1>Do the prediction over the entire dataset</h1>
-<pre><code>prediction = []
-
-for i in range(0, len(df_new['processed_images'])):
-  prediction.append(np.array(cv2.resize(df_new.iloc[i]['processed_images'], (100, 500))))
-
-prediction = np.array(prediction)
-
-prediction = prediction.astype('float32') / 255.0
-
-pred_label = Imported_model.predict(prediction)</code></pre>
+<div class="sourceCode" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>prediction <span class="op">=</span> []</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="bu">len</span>(df_new[<span class="st">'processed_images'</span>])):</span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>  prediction.append(np.array(cv2.resize(df_new.iloc[i][<span class="st">'processed_images'</span>], (<span class="dv">100</span>, <span class="dv">500</span>))))</span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a>prediction <span class="op">=</span> np.array(prediction)</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>prediction <span class="op">=</span> prediction.astype(<span class="st">'float32'</span>) <span class="op">/</span> <span class="fl">255.0</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a>pred_label <span class="op">=</span> Imported_model.predict(prediction)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>84/84 [==============================] - 173s 2s/step</p>
 <p>If the predicted probability is</p>
 <ul>
@@ -680,17 +714,17 @@ pred_label = Imported_model.predict(prediction)</code></pre>
 <li><p>&lt; 0.25 : Ballast</p></li>
 <li><p>in between : ambiguous</p></li>
 </ul>
-<pre><code>final_label = []
-
-for i in range(0, len(pred_label)):
-  if pred_label[i]&gt;=0.75:
-    final_label.append('T')
-  if pred_label[i]&lt;=0.25:
-    final_label.append('B')
-  if (pred_label[i]&gt;0.25) &amp; (pred_label[i]&lt;0.75):
-    final_label.append('A')
-
-df_new['Predicted_labels'] = final_label</code></pre>
+<div class="sourceCode" id="cb37"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>final_label <span class="op">=</span> []</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="bu">len</span>(pred_label)):</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> pred_label[i]<span class="op">&gt;=</span><span class="fl">0.75</span>:</span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a>    final_label.append(<span class="st">'T'</span>)</span>
+<span id="cb37-6"><a href="#cb37-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> pred_label[i]<span class="op">&lt;=</span><span class="fl">0.25</span>:</span>
+<span id="cb37-7"><a href="#cb37-7" aria-hidden="true" tabindex="-1"></a>    final_label.append(<span class="st">'B'</span>)</span>
+<span id="cb37-8"><a href="#cb37-8" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (pred_label[i]<span class="op">&gt;</span><span class="fl">0.25</span>) <span class="op">&amp;</span> (pred_label[i]<span class="op">&lt;</span><span class="fl">0.75</span>):</span>
+<span id="cb37-9"><a href="#cb37-9" aria-hidden="true" tabindex="-1"></a>    final_label.append(<span class="st">'A'</span>)</span>
+<span id="cb37-10"><a href="#cb37-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-11"><a href="#cb37-11" aria-hidden="true" tabindex="-1"></a>df_new[<span class="st">'Predicted_labels'</span>] <span class="op">=</span> final_label</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>
