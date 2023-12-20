@@ -1,93 +1,46 @@
 ---
-title: "Tie-Ballast Identification"
-author: "Morteza Mirzaei"
-date: "2023-12-09"
-categories: [code, analysis]
-image: "image.png"
+title: Non-contact in-motion tie/ballast detection
+jupyter: python3
 ---
 
-# Non-contact in-motion tie/ballast detection
 
-This study develops an effective system for in-motion and autonomous identification of crossties and ballast, toward implementing non-contact sensors that can evaluate the condition of railroad structures. An array of sensors that include distance LIDAR sensors, magnetic sensors, and cameras are employed to test a prototype system in motion, onboard a remotely controlled track cart that can travel at speeds of up to 10 mph. The tests are performed on revenue-service tracks and the measurements are used to develop autonomous post-processing approaches that can be readily adopted by the railroads. Two distinct techniques for the LIDAR sensors are explored. Next, a machine learning model is developed to achieve the task with potentially more accuracy. To this end, three machine learning models, using three types of inputs, are developed to identify the optimal model. The DecisionTree algorithm coupled with the standard deviation of the difference between two distance sensors proved to be the most effective.
+This study develops an effective system for in-motion and autonomous identification of crossties and ballast, toward implementing non-contact sensors that can evaluate the condition of railroad structures.  An array of sensors that include distance LIDAR sensors, magnetic sensors, and cameras are employed to test a prototype system in motion, onboard a remotely controlled track cart that can travel at speeds of up to 10 mph. The tests are performed on revenue-service tracks and the measurements are used to develop autonomous post-processing approaches that can be readily adopted by the railroads. Two distinct techniques for the LIDAR sensors are explored. Next, a machine learning model is developed to achieve the task with potentially more accuracy. To this end, three machine learning models, using three types of inputs, are developed to identify the optimal model. The DecisionTree algorithm coupled with the standard deviation of the difference between two distance sensors proved to be the most effective.
 
-``` python
+
+```{python}
+#| id: pIRq8LlIrZfZ
+#| colab: {base_uri: 'https://localhost:8080/'}
+#| id: pIRq8LlIrZfZ
+#| outputId: 3d37ad1e-13d0-4e1b-9e5e-bd25724c8f5f
 from google.colab import drive
 drive.mount('/content/drive')
 ```
 
-```         
-Mounted at /content/drive
+Import the required libraries
+
+```{python}
+#| id: pjiPTQ62riJi
+#| id: pjiPTQ62riJi
+import pandas as pd
+import numpy as np
+from sklearn import preprocessing
+import matplotlib.pyplot as plt
+%matplotlib inline
+from sklearn import preprocessing
+from sklearn.linear_model import LogisticRegression
+from sklearn.tree import DecisionTreeClassifier
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import StandardScaler
+from sklearn.metrics import classification_report
+from sklearn.metrics import precision_recall_fscore_support as score
 ```
 
 Define a custom function for plotting
 
-``` python
-def interactive_plot_scatter(df, x_axis, y_axis):
-  import plotly.express as px
-
-  fig = px.scatter(df, x_axis, y_axis)
-  return fig.show()
-
-def interactive_plot_line(df, x_axis, y_axis):
-  import plotly.express as px
-
-  fig = px.line(df, x_axis, y_axis)
-  return fig.show()
-
-def tach_cleaning(df):
-  tach = np.zeros(df['Tach'].shape[0])
-  for i in range(1, df['Tach'].shape[0]):
-    if df.iloc[i]['Tach'] > 2.2:
-      tach[i] = 5
-  df['Tach_p'] = tach
-  return df
-
-def position_string(df: dict) -> str:
-  df['Pos'] = 0.000000
-  pos = df['Pos']
-  c = 0;
-  delta = float((1/36) * 7.25 * np.pi / 12);
-  for i in range(1, pos.shape[0]):
-    if (np.abs(df.iloc[i]['Tach']-df.iloc[i-1]['Tach'])>1):
-      c = c + 1
-    pos[i] = delta * c
-  return pos
-
-def remove_Keyence_dropout(df):
-  df = df[df['left_disp']<1.15]
-  df = df[df['right_disp']<0.925]
-  return df
-
-def remove_outliers(df):
-  Q1 = np.percentile(df['right_disp'], 25,
-                   interpolation = 'midpoint')
-
-  Q3 = np.percentile(df['right_disp'], 75,
-                   interpolation = 'midpoint')
-  IQR = Q3 - Q1
-
-  up = Q3+1.5*IQR
-  low = Q1-1.5*IQR
-
-  df = df[df['right_disp']<up]
-  df = df[df['right_disp']>low]
-
-  Q1 = np.percentile(df['left_disp'], 25,
-                   interpolation = 'midpoint')
-
-  Q3 = np.percentile(df['left_disp'], 75,
-                   interpolation = 'midpoint')
-  IQR = Q3 - Q1
-
-  up = Q3+1.5*IQR
-  low = Q1-1.5*IQR
-
-  df = df[df['left_disp']<up]
-  df = df[df['left_disp']>low]
-  return df
-```
-
-``` python
+```{python}
+#| id: w9j7LzgGqxP5
+#| id: w9j7LzgGqxP5
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -174,33 +127,103 @@ def custom_multiplot(x, y_sets, title=None, xlabel=None, ylabel=None, legend_lab
 #----------------------------------------------------------------------------------------------------------------------------------------------------------------
 ```
 
-``` python
-import pandas as pd
-import numpy as np
-from sklearn import preprocessing
-import matplotlib.pyplot as plt
-%matplotlib inline
-from sklearn import preprocessing
-from sklearn.linear_model import LogisticRegression
-from sklearn.tree import DecisionTreeClassifier
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import MinMaxScaler
-from sklearn.preprocessing import StandardScaler
-from sklearn.metrics import classification_report
-from sklearn.metrics import precision_recall_fscore_support as score
+```{python}
+#| id: J7oXanWTsLxN
+#| id: J7oXanWTsLxN
+def interactive_plot_scatter(df, x_axis, y_axis):
+  import plotly.express as px
+
+  fig = px.scatter(df, x_axis, y_axis)
+  return fig.show()
+
+def interactive_plot_line(df, x_axis, y_axis):
+  import plotly.express as px
+
+  fig = px.line(df, x_axis, y_axis)
+  return fig.show()
+
+def tach_cleaning(df):
+  tach = np.zeros(df['Tach'].shape[0])
+  for i in range(1, df['Tach'].shape[0]):
+    if df.iloc[i]['Tach'] > 2.2:
+      tach[i] = 5
+  df['Tach_p'] = tach
+  return df
+
+def position_string(df: dict) -> str:
+  df['Pos'] = 0.000000
+  pos = df['Pos']
+  c = 0;
+  delta = float((1/36) * 7.25 * np.pi / 12);
+  for i in range(1, pos.shape[0]):
+    if (np.abs(df.iloc[i]['Tach']-df.iloc[i-1]['Tach'])>1):
+      c = c + 1
+    pos[i] = delta * c
+  return pos
+
+def remove_Keyence_dropout(df):
+  df = df[df['left_disp']<1.15]
+  df = df[df['right_disp']<0.925]
+  return df
+
+def remove_outliers(df):
+  Q1 = np.percentile(df['right_disp'], 25,
+                   interpolation = 'midpoint')
+
+  Q3 = np.percentile(df['right_disp'], 75,
+                   interpolation = 'midpoint')
+  IQR = Q3 - Q1
+
+  up = Q3+1.5*IQR
+  low = Q1-1.5*IQR
+
+  df = df[df['right_disp']<up]
+  df = df[df['right_disp']>low]
+
+  Q1 = np.percentile(df['left_disp'], 25,
+                   interpolation = 'midpoint')
+
+  Q3 = np.percentile(df['left_disp'], 75,
+                   interpolation = 'midpoint')
+  IQR = Q3 - Q1
+
+  up = Q3+1.5*IQR
+  low = Q1-1.5*IQR
+
+  df = df[df['left_disp']<up]
+  df = df[df['left_disp']>low]
+  return df
 ```
 
-Import the required libraries
-
-``` python
+```{python}
+#| id: hcRPrq49sXab
+#| id: hcRPrq49sXab
 df = pd.read_csv('/content/drive/MyDrive/CVeSS/TB/Huckelberry/Feb_8/DE9C0013.csv')
+```
 
+```{python}
+#| id: xJZhADrHkxqN
+#| id: xJZhADrHkxqN
+#| colab: {base_uri: 'https://localhost:8080/'}
+#| outputId: e88988fe-3663-49a4-ef15-cdc91b09469f
 df.set_axis(['sec', 'left_disp', 'right_disp', 'Yaw_disp', 'mag', 'x', 'y', 'z', 'temp', 'humid', 'sync', 'Tach', 'bat', 'date', 'UTC'], axis="columns", inplace=True)
 ```
 
 The provided dataset includes measured data, with a focus on the "sec," "left_disp," and "right_disp" columns, representing time, left sensor measurements, and right sensor measurements, respectively. The left and right sensors gauge the distance from the ground surface to a constant reference point, essentially capturing the surface figure of the track.
 
-``` python
+```{python}
+#| id: J_EPwKr2xRHl
+#| colab: {base_uri: 'https://localhost:8080/', height: 424}
+#| id: J_EPwKr2xRHl
+#| outputId: 30bd3b08-e683-42f9-e14d-1924ba79677a
+df
+```
+
+```{python}
+#| id: HxKOirVjshHF
+#| id: HxKOirVjshHF
+#| colab: {base_uri: 'https://localhost:8080/', height: 581}
+#| outputId: c17bdc2c-481c-4025-cb71-9e842f72bfee
 custom_multiplot(
     df['sec'], [df['right_disp'], df['left_disp']],
     title='Raw data',
@@ -215,13 +238,16 @@ custom_multiplot(
     figsize=(20, 6),
     xlog=False,
     ylog=False
+)
 ```
-
-![](images/1.png)
 
 A funtion is defined to remove the outliers using IQR method
 
-``` python
+```{python}
+#| id: 5aPq6l2JxXro
+#| colab: {base_uri: 'https://localhost:8080/', height: 928}
+#| id: 5aPq6l2JxXro
+#| outputId: 9c704216-03e3-40b3-e862-83d1d5c824a6
 df = remove_outliers(df)
 df.reset_index(inplace=True,drop=True)
 custom_multiplot(
@@ -237,16 +263,23 @@ custom_multiplot(
     grid=True,
     figsize=(20, 6),
     xlog=False,
-    ylog=False)
+    ylog=False
+)
 ```
-
-![](images/2.png)
 
 A small section of the data (from time 100 s to 150 s) is selected to be used for training
 
-``` python
+```{python}
+#| id: 2ddBNT36JMG2
+#| id: 2ddBNT36JMG2
 df_train = df[(df['sec']<150) & (df['sec']>100)]
+```
 
+```{python}
+#| id: raJorOBZJ9Kh
+#| colab: {base_uri: 'https://localhost:8080/', height: 581}
+#| id: raJorOBZJ9Kh
+#| outputId: 5f94eb4b-9a94-4836-ff14-51e4922d9ec9
 custom_multiplot(
     df_train['sec'], [df_train['right_disp'], df_train['left_disp']],
     title='Raw data',
@@ -264,17 +297,27 @@ custom_multiplot(
 )
 ```
 
-![](images/3-01.png)
-
 Before starting the training, we should manually label the data points related to ties and ballast. In the training dataframe, there are 55 ties. For each tie, start and end times are recorded in a dataframe called tb. We eill use this information to label all the data points.
 
-``` python
+```{python}
+#| id: 2YT3fKF5J_EW
+#| id: 2YT3fKF5J_EW
 tb = pd.read_excel('/content/drive/MyDrive/CVeSS/TB/Huckelberry/Feb_8/tie_ballast.xlsx')
+```
+
+```{python}
+#| id: ZJRPsuEke2KY
+#| colab: {base_uri: 'https://localhost:8080/', height: 1000}
+#| id: ZJRPsuEke2KY
+#| outputId: 582f2a69-de00-4926-a20a-32c7c538583e
+tb
 ```
 
 Labeling all the data points take place here. In this block, we go through each data point and we check to see if it belongs to tb dataframe. If it was we have Tie (1), else, ballast (0).
 
-``` python
+```{python}
+#| id: bl0BgZnfe32-
+#| id: bl0BgZnfe32-
 labels = np.zeros(len(df_train))
 
 for i in range(len(df_train)):
@@ -282,10 +325,29 @@ for i in range(len(df_train)):
     if df_train.iloc[i]['sec']<tb.iloc[j]['end']:
       if df_train.iloc[i]['sec']>tb.iloc[j]['start']:
         labels[i] = 1
+```
 
-
+```{python}
+#| id: jeOqzTVrkxmI
+#| id: jeOqzTVrkxmI
+#| colab: {base_uri: 'https://localhost:8080/'}
+#| outputId: 390f694f-fd4c-43ab-eb34-9992fa2334f2
 df_train['labels'] = labels
+```
 
+```{python}
+#| id: XXqQxd-g7aSe
+#| colab: {base_uri: 'https://localhost:8080/', height: 424}
+#| id: XXqQxd-g7aSe
+#| outputId: 85f379a4-d293-4f77-c31a-be1fa3bcc0b0
+df_train
+```
+
+```{python}
+#| id: lbYVxYXU-2gx
+#| colab: {base_uri: 'https://localhost:8080/', height: 581}
+#| id: lbYVxYXU-2gx
+#| outputId: 7256398e-2716-48bc-9c35-aadaeb14a06d
 custom_multiplot(
     df_train['sec'], [df_train['right_disp'], df_train['left_disp'], df_train['labels']],
     title='Raw data',
@@ -303,12 +365,15 @@ custom_multiplot(
 )
 ```
 
-![](images/4.png)
-
-Save and reload the data for future use
-
-``` python
+```{python}
+#| id: tz7PQtSJLEmU
+#| id: tz7PQtSJLEmU
 df_train.to_csv('/content/drive/MyDrive/CVeSS/TB/Huckelberry/Feb_8/Labeled_DE9C0013.csv')
+```
+
+```{python}
+#| id: PJM2QGCkf0KD
+#| id: PJM2QGCkf0KD
 df_train = pd.read_csv('/content/drive/MyDrive/CVeSS/TB/Huckelberry/Feb_8/Labeled_DE9C0013.csv')
 ```
 
@@ -320,11 +385,17 @@ All the measured data will be stored in sequences of certain size. So the machin
 
 Three inputs are defined here to investigate which one yields better results.
 
--   Raw measurment
--   Difference of right and left
--   Standard deviation of difference
 
-``` python
+*   Raw measurment
+*   Difference of right and left
+*   Standard deviation of difference
+
+
+
+
+```{python}
+#| id: uN2XDaxI_v6v
+#| id: uN2XDaxI_v6v
 ws = 50
 
 RDbatch = []
@@ -345,7 +416,9 @@ for i in range(ws, len(df_train)):
     target.append(0)
 ```
 
-``` python
+```{python}
+#| id: zkLpwzgDdl6X
+#| id: zkLpwzgDdl6X
 STDofDiff = np.zeros([len(STDDiff), ws])
 
 for i in range(ws, len(STDofDiff)):
@@ -354,9 +427,13 @@ for i in range(ws, len(STDofDiff)):
 
 Data is scaled using StandardScaler
 
-### Training the machine learning model on raw measurments using DecisionTree
+### Training the machine learning model on raw measurments using DecisionTress
 
-``` python
+```{python}
+#| id: QbLHnT7JDAho
+#| colab: {base_uri: 'https://localhost:8080/'}
+#| id: QbLHnT7JDAho
+#| outputId: 6b02bd8a-3a4f-44ab-a0f9-07ca04bce944
 X_train, X_test, y_train, y_test = train_test_split(np.array(LDbatch), target, test_size=0.25, random_state=0)
 
 scaler = StandardScaler()
@@ -372,11 +449,13 @@ precision,recall,fscore,support=score(y_test,y_pred,average='macro')
 print("F Score for using one measurement : ", fscore)
 ```
 
-F Score for using one measurement : 0.959993349532803
+### Training the machine learning model on difference of right and left using DecisionTress
 
-### Training the machine learning model on difference of right and left using DecisionTree
-
-``` python
+```{python}
+#| id: yX_9KG-TghIv
+#| colab: {base_uri: 'https://localhost:8080/'}
+#| id: yX_9KG-TghIv
+#| outputId: 554282ef-6665-4e19-a482-afeb53a8c0fd
 X_train, X_test, y_train, y_test = train_test_split(np.array(Diffbatch), target, test_size=0.25, random_state=0)
 
 scaler = StandardScaler()
@@ -392,13 +471,13 @@ precision,recall,fscore,support=score(y_test,y_pred,average='macro')
 print("F Score for using difference of measurments : ", fscore)
 ```
 
-```         
-F Score for using difference of measurments : 0.9173980177749999
-```
+### Training the machine learning model on standard deviation of difference of right and left using DecisionTress
 
-### Training the machine learning model on standard deviation of difference of right and left using DecisionTree
-
-``` python
+```{python}
+#| id: fG3EwP__hgeN
+#| colab: {base_uri: 'https://localhost:8080/'}
+#| id: fG3EwP__hgeN
+#| outputId: 9ec3c937-0eac-4491-d266-3b2703e8469e
 X_train, X_test, y_train, y_test = train_test_split(np.array(STDofDiff), target, test_size=0.25, random_state=0)
 
 scaler = StandardScaler()
@@ -414,17 +493,15 @@ precision,recall,fscore,support=score(y_test,y_pred,average='macro')
 print("F Score for using standard deviation of difference of measurmentst : ", fscore)
 ```
 
-```         
-F Score for using standard deviation of difference of measurmentst : 0.9399797522284663
-```
-
 It can be seen that the raw measurments resulted in a better F-score. However, STD of difference more robust and is less sensitive in tie elevation. So we decided to move on with STD of difference as input.
 
 ## Optimum window size
 
 In this section the optimum window size will be selected
 
-``` python
+```{python}
+#| id: 20dEbQzHlPdX
+#| id: 20dEbQzHlPdX
 t = []
 fscoreVal = []
 model = []
@@ -467,7 +544,11 @@ for w in range(50, 251, 50):
   fscoreVal.append(fscore)
 ```
 
-``` python
+```{python}
+#| id: ZzIKwBFlrZPZ
+#| colab: {base_uri: 'https://localhost:8080/', height: 581}
+#| id: ZzIKwBFlrZPZ
+#| outputId: 489f783b-9bc5-4499-df24-e74330a810b7
 custom_multiplot(
     t, [fscoreVal],
     title='Logarithmic Scale Plot',
@@ -486,18 +567,22 @@ custom_multiplot(
 )
 ```
 
-![](images/5-01.png){width="446"}
-
 # Validating the results
 
-In this section the trained model will be used to do the predictions on another section of the dataset.
+In  this section the trained model will be used to do the predictions on another section of the dataset.
 
-``` python
+```{python}
+#| id: U2_5OqCtwJVC
+#| id: U2_5OqCtwJVC
 df_test = df[(df['sec']<250) & (df['sec']>200)]
 df_test.reset_index(inplace=True,drop=True)
 ```
 
-``` python
+```{python}
+#| id: q3eH-bOvwcCV
+#| colab: {base_uri: 'https://localhost:8080/', height: 581}
+#| id: q3eH-bOvwcCV
+#| outputId: 0b51ae1b-0f1f-4da8-9c35-bfc5f3ce6c75
 custom_multiplot(
     df_test['sec'], [df_test['right_disp'], df_test['left_disp']],
     title='Validation set',
@@ -515,9 +600,9 @@ custom_multiplot(
 )
 ```
 
-![](images/6.png)
-
-``` python
+```{python}
+#| id: mn-lVnxowkll
+#| id: mn-lVnxowkll
 ws = 100
 
 STDDiff = []
@@ -537,7 +622,11 @@ X = scaler.fit_transform(X)
 y_pred = model[1].predict(X)
 ```
 
-``` python
+```{python}
+#| id: Ft0Fa6Pux1qL
+#| colab: {base_uri: 'https://localhost:8080/', height: 504}
+#| id: Ft0Fa6Pux1qL
+#| outputId: 0f70684c-eb5c-4129-9c89-e44b527d9a6c
 custom_multiplot(
     df_test.iloc[ws//2:-ws//2]['sec'], [y_pred, df_test.iloc[ws//2:-ws//2]['right_disp']],
     title='Validation set',
@@ -556,4 +645,3 @@ custom_multiplot(
 )
 ```
 
-![](images/7.png)
